@@ -18,6 +18,12 @@ public class MvcConfig {
 	public String index() {
 		return "index";
 	}
+	
+	@GetMapping("/search")
+	public String search() {
+		return "search";
+	}
+	
 	@GetMapping("/user")
 	public String home() {
 		return "user";
