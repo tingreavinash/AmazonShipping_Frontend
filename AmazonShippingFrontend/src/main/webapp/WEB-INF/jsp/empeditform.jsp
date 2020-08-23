@@ -58,29 +58,29 @@ html, body {
 
   
         <h1>Edit Employee</h1>  
-       <form:form method="POST" action="/editsave">    
+       <form:form method="post" action="/editsave">    
         <table >    
         <tr>  
           <td>Id : </td>   
-         <td><form:input path="id" /></td>  
+         <td><form:input path="id" class="form-control"/></td>  
          </tr>   
          <tr>    
           <td>Name : </td>   
-          <td><form:input path="name" />
+          <td><form:input path="name" class="form-control" />
           </td>  
          </tr>    
          <tr>    
           <td>Salary :</td>    
-          <td><form:input path="salary" /></td>  
+          <td><form:input path="salary" class="form-control"/></td>  
          </tr>   
          <tr>    
           <td>Designation :</td>    
-          <td><form:input path="designation" /></td>  
+          <td><form:input path="designation" class="form-control"/></td>  
          </tr>   
            
          <tr>    
           <td> </td>    
-          <td><input type="submit" value="Edit Save" /></td>    
+          <td><input type="submit" class="btn btn-warning btn-sm" value="Edit Save" /></td>    
          </tr>    
         </table>    
        </form:form>    
