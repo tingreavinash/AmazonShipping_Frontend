@@ -62,7 +62,6 @@ html, body {
         <table >    
         <tr>  
           <td>Id : </td>   
-
          <td><form:input path="id" /></td>  
          </tr>   
          <tr>    
