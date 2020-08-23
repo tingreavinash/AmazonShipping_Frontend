@@ -1,3 +1,4 @@
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="security" %>
 <%@page import="java.util.Base64"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.net.InetAddress"%>
@@ -54,7 +55,7 @@ html, body {
 						align="center">Hotfix Log Viewer</h2>
 				</div>
 
-				<form autocomplete="off" id="searchForm" method="post"
+				<form autocomplete="off" action="/SearchResult" method="post"
 					style="margin-top: 10px;">
 
 					<div class="form-row" style="margin-bottom: 5px; max-height: 300px">
@@ -163,9 +164,8 @@ html, body {
 				<%
 					}
 				%>
-				<jsp:include page="hotfixResult.jsp"></jsp:include>
-
-
+				
+				
 				<div
 					style="opacity: 0.8; position: fixed; bottom: 10px; right: 60px; z-index: 6;">
 					<button class="btn btn-warning text-white " data-toggle="modal"

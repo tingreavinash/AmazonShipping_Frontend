@@ -30,7 +30,7 @@
 
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Search Result</title>
+<title>Update Order</title>
 <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 
 <link rel="stylesheet" type="text/css" href="css/index.css">
@@ -49,16 +49,22 @@ html, body {
 </style>
 
 
-
 </head>
 <body>
 
-	<%
-	request.getSession(false);
-		String show_input = "";
-		if ("searchClicked".equals(request.getParameter("searchBtn"))) {
-			String ecpNo = request.getParameter("ecpNo").trim();
+					<%
+					if ("updateClicked".equals(request.getParameter("updateBtn"))) {
+						System.out.println("Search Clicked");
+					}
+					%>
 
+	<%
+	String show_input = "";
+		if (true) {
+			System.out.println("Test1");
+			String ecpNo = request.getParameter("orderid");
+			//String ecpNo = ${orderid};
+			System.out.println("Test2 ecpNo: "+ecpNo);
 			
 			if (!"".equals(ecpNo)) {
 
@@ -67,7 +73,7 @@ html, body {
 
 				String plainInput = "?ecpNo=" + ecpNo ;
 		
-				if(ecpNo!="") show_input=show_input.concat("<b><em>Hotfix No:</em></b> "+ecpNo+", ");
+				if(ecpNo!="") show_input=show_input.concat("<b><em>Order ID:</em></b> "+ecpNo+", ");
 
 				ObjectMapper objectMapper = new ObjectMapper();
 				HttpURLConnection con = null;
@@ -117,10 +123,7 @@ html, body {
 	<span style="font-size: 13px;color:white" class="badge badge-warning badge-mb">Search Query: </span> <%=show_input %>
 	</div>
 	<div class="list-group " id="hflist" style="margin-top:10px;">
-		<div class="row Box-hotfix-title">
-		<div class="col col-sm-3 text-center "><b>HOTFIX NUMBER</b></div>
-		<div class="col col-sm-9 text-center"><b>DESCRIPTION</b></div>
-		</div>
+		
 		<%
 			for (int count = 0; count < 1; count++) {
 				Order ecp = new Order();
@@ -168,7 +171,7 @@ html, body {
 					Save <i class="fas fa-download"></i>
 					</button>
 					</div>
-					
+					<form method="post">
 					<!-- Row 1 -->
 					<div class="row">
 						<div class="col">
@@ -505,15 +508,15 @@ html, body {
 						</div>
 						
 					</div>
-
-					<form method="post">
-					<button type="submit" class="btn btn-success btn-sm" style="margin-left: 10px;" id="updateBtn_<%=ecp.getOrder_id()%>" 
-					name="updateBtn_<%=ecp.getOrder_id()%>" value="updateClicked">
+					<input type="hidden" class="form-control" id="orderid" name="orderid" 
+								value="<%=ecp.getOrder_id()%>"
+								style="margin-top: 3px" disabled>
+					<button type="submit" class="form-control btn btn-success btn-sm" style="margin-left: 10px;" id="updateBtn" 
+					name="updateBtn" value="updateClicked">
 					Update
 					</button>
+					
 					</form>
-					
-					
 					
 				</div></div>
 
@@ -593,7 +596,7 @@ html, body {
 		%>
 	</div>
 	
-			<script type="text/javascript" src="js/jquery-3.5.1.slim.min.js"></script>
+		<script type="text/javascript" src="js/jquery-3.5.1.slim.min.js"></script>
 	<script type="text/javascript" src="js/popper.min.js"></script>
 	<script type="text/javascript" src="js/bootstrap.min.js"></script>
 	<script src="js/dom-to-image.js"></script>

@@ -7,6 +7,9 @@
     </head>
     <body>
         <a href="user">User</a> <a href="admin">Admin</a> <br> <br>  
-		Welcome to Javatpoint!    
+		Welcome to Javatpoint!
+		
+		<a href="empform">Add Employee</a>  
+		<a href="viewemp">View Employees</a>      
     </body>
 </html>
