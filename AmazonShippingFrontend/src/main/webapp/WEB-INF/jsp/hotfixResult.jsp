@@ -1,3 +1,6 @@
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>    
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>    
+
 <%@page import="com.avinash.amazonshipping.model.Order"%>
 <%@page import="java.net.ConnectException"%>
 <%@page import="java.util.Locale"%>
@@ -52,96 +55,39 @@ html, body {
 
 </head>
 <body>
-
-	<%
-	request.getSession(false);
-		String show_input = "";
-		if ("searchClicked".equals(request.getParameter("searchBtn"))) {
-			String ecpNo = request.getParameter("ecpNo").trim();
-
-			
-			if (!"".equals(ecpNo)) {
-
-
-				String paramString = "?orderid=" + URLEncoder.encode(ecpNo, "UTF-8");
-
-				String plainInput = "?ecpNo=" + ecpNo ;
-		
-				if(ecpNo!="") show_input=show_input.concat("<b><em>Hotfix No:</em></b> "+ecpNo+", ");
-
-				ObjectMapper objectMapper = new ObjectMapper();
-				HttpURLConnection con = null;
-				try {
-					
-					URL url = new URL("http://localhost:7777/ShippingApplication/getOrderDetails" + paramString);
-					con = (HttpURLConnection) url.openConnection();
-					con.setRequestMethod("GET");
-					con.setRequestProperty("Content-Type", "application/json");
-					
-					con.setConnectTimeout(5000);
-					con.setReadTimeout(5000);
-
-					int status = con.getResponseCode();
-					if (status > 299) {
-						Reader streamReader = null;
-
-						BufferedReader in = new BufferedReader(streamReader);
-						String inputLine;
-						StringBuffer content = new StringBuffer();
-						while ((inputLine = in.readLine()) != null) {
-							content.append(inputLine);
-						}
-						in.close();
-						System.out.println("Below error occured: \n" + content.toString());
-
-					} else {
-						BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-						String inputLine;
-						StringBuffer content = new StringBuffer();
-						while ((inputLine = in.readLine()) != null) {
-							content.append(inputLine);
-						}
-						in.close();
-						String response1 = content.toString();
-
-						Order respObject = objectMapper.readValue(response1,
-								Order.class);
-						if (respObject != null) {
-	%>
 	<div class="alert Box-header--blue  text-center" role="alert">
 		Results found:
 			<span class="badge badge-pill badge-secondary"></span>
 	
 	</div>
 	<div class="alert Box-header text-center">
-	<span style="font-size: 13px;color:white" class="badge badge-warning badge-mb">Search Query: </span> <%=show_input %>
+	<span style="font-size: 13px;color:white" class="badge badge-warning badge-mb">Search Query: </span>
 	</div>
 	<div class="list-group " id="hflist" style="margin-top:10px;">
 		<div class="row Box-hotfix-title">
 		<div class="col col-sm-3 text-center "><b>HOTFIX NUMBER</b></div>
 		<div class="col col-sm-9 text-center"><b>DESCRIPTION</b></div>
 		</div>
-		<%
-			for (int count = 0; count < 1; count++) {
-				Order ecp = new Order();
-				ecp = respObject;
-		%>
-		<div id="ecp_image_<%=ecp.getOrder_id()%>">
+		
+		<!-- For loop started -->
+		<c:forEach var="emp" items="${list}">
+		
+		<div id="ecp_image_${emp.id}">
 		<a class="list-group-item list-group-item-action hf-details-parent"
-			data-toggle="collapse" href="#hfCollapse<%=ecp.getOrder_id()%>"
-			aria-expanded="false" aria-controls="hfCollapse<%=ecp.getOrder_id()%>">
+			data-toggle="collapse" href="#hfCollapse${emp.id}"
+			aria-expanded="false" aria-controls="hfCollapse${emp.id}">
 			<div class="row hf-list-top">
 				<div class="col col-sm-4 ">
 					
 					<div class="row">
 					<div class="col col-sm-10">
-					<div id="ecpno_<%=ecp.getOrder_id()%>"><%=ecp.getOrder_id()%>
+					<div id="ecpno_${emp.id}">${emp.id}
 						</div>
 					
 					</div>
 					<div class="col col-sm-2">
 					<span class="copy_icon" 
-					onclick="copyToClipboard('ecpno_<%=ecp.getOrder_id()%>', 'description_<%=ecp.getOrder_id()%>')"><i class="fas fa-copy"></i></span>
+					onclick="copyToClipboard('ecpno_${emp.id}', 'description_${emp.id}')"><i class="fas fa-copy"></i></span>
 					
 					</div>
 					</div>
@@ -151,7 +97,7 @@ html, body {
 
 				</div>
 				<div class="col col-sm-8 hf-list-description">
-					<div id="description_<%=ecp.getOrder_id()%>"><%=ecp.getRecipient_name()%></div>
+					<div id="description_${emp.id}">${emp.name}</div>
 				</div>
 			</div>
 
@@ -159,12 +105,12 @@ html, body {
 
 
 		<div class="collapse multi-collapse hf-details-child" style="background-color: white"
-			data-parent="#hflist" id="hfCollapse<%=ecp.getOrder_id()%>">
+			data-parent="#hflist" id="hfCollapse${emp.id}">
 				<div class="bd-callout bd-callout-warning">
 					
 					<div class="row justify-content-end">
 					
-					<button class="btn btn-warning btn-sm" style="margin-left: 10px;" onclick="saveImage('ecp_image_<%=ecp.getOrder_id()%>', '<%=ecp.getOrder_id()%>')">
+					<button class="btn btn-warning btn-sm" style="margin-left: 10px;" onclick="saveImage('ecp_image_${emp.id}', '${emp.id}')">
 					Save <i class="fas fa-download"></i>
 					</button>
 					</div>
@@ -174,7 +120,7 @@ html, body {
 						<div class="col">
 							<div>
 								<span class="badge badge-pill badge-secondary hf-detail-tag">Buyer Email</span><br>
-								<input type="text" class="form-control" id="exampleFormControlInput1" value="<%=ecp.getBuyer_email()%>"
+								<input type="text" class="form-control" id="exampleFormControlInput1" value="${emp.name}"
 								style="margin-top: 3px" disabled>
 							</div>
 
@@ -182,7 +128,7 @@ html, body {
 						<div class="col">
 							<div>
 								<span class="badge badge-pill badge-secondary hf-detail-tag">Buyer Name</span><br>
-								<input type="text" class="form-control" id="exampleFormControlInput1" value="<%=ecp.getBuyer_name()%>"
+								<input type="text" class="form-control" id="exampleFormControlInput1" value="${emp.salary}"
 								style="margin-top: 3px" disabled>
 								
 							</div>
@@ -190,7 +136,7 @@ html, body {
 						<div class="col">
 							<div>
 								<span class="badge badge-pill badge-secondary hf-detail-tag">Buyer Phone</span><br>
-								<input type="text" class="form-control" id="exampleFormControlInput1" value="<%=ecp.getBuyer_phone_number()%>"
+								<input type="text" class="form-control" id="exampleFormControlInput1" value="${emp.designation}"
 								style="margin-top: 3px" disabled>
 								
 							</div>
@@ -198,7 +144,7 @@ html, body {
 						</div>
 					</div>
 					<!-- Row 2 -->
-					<div class="row">
+					<%-- <div class="row">
 						<div class="col">
 							<div>
 								<span class="badge badge-pill badge-secondary hf-detail-tag">Order ID</span><br>
@@ -504,14 +450,11 @@ html, body {
 
 						</div>
 						
-					</div>
+					</div> --%>
 
-					<form method="post">
-					<button type="submit" class="btn btn-success btn-sm" style="margin-left: 10px;" id="updateBtn_<%=ecp.getOrder_id()%>" 
-					name="updateBtn_<%=ecp.getOrder_id()%>" value="updateClicked">
+					<a href="editemp/${emp.id}" class="btn btn-success btn-sm" id="updateBtn_${emp.id}">
 					Update
-					</button>
-					</form>
+					</a>
 					
 					
 					
@@ -519,32 +462,16 @@ html, body {
 
 
 			</div>
-
-			<%
-				}
-			%>
+			</c:forEach>  
+			
 		</div>
-
-		<%
-			} else {
-								System.out.println("No records found!");
-		%>
-		<div class="alert alert-warning" role="alert">
+		<!-- <div class="alert alert-warning" role="alert">
 			<h4 class="alert-heading">Oops !</h4>
 			<p>No matching records found.</p>
 			<hr>
 			<p class="mb-0">Try again with improved criteria.</p>
-		</div>
-		<%
-			}
-
-						}
-
-					} catch (ConnectException ex) {
-						System.out.println("Server Down.\n" + ex.getMessage());
-						
-		%>
-		<div class="alert alert-warning" role="alert">
+		</div> -->
+		<!-- <div class="alert alert-warning" role="alert">
 			<h4 class="alert-heading">Oops !</h4>
 			<p>
 				Operation failed due to any of below reasons:<br> 
@@ -553,12 +480,8 @@ html, body {
 			</p>
 			<hr>
 			<p class="mb-0">Try again with improved criteria.</p>
-		</div>
-		<%
-			}catch(Exception ex){
-				System.out.println("Exception: "+ex.getMessage());
-				%>
-				<div class="alert alert-warning" role="alert">
+		</div> -->
+				<!-- <div class="alert alert-warning" role="alert">
 					<h4 class="alert-heading">Oops !</h4>
 					<p>
 						Operation failed due to any of below reasons:<br> 
@@ -567,16 +490,8 @@ html, body {
 					</p>
 					<hr>
 					<p class="mb-0">Try again with improved criteria.</p>
-				</div>
-				<%
-
-			}finally {
-						con.disconnect();
-						System.out.println("Connection closed.");
-					}
-				} else {
-		%>
-		<div class="alert alert-warning" role="alert">
+				</div> -->
+		<!-- <div class="alert alert-warning" role="alert">
 			<h4 class="alert-heading">Oops !</h4>
 			<p>
 				Operation failed due to any of below reasons:<br> 1. No input
@@ -584,14 +499,7 @@ html, body {
 			</p>
 			<hr>
 			<p class="mb-0">Try again with improved criteria.</p>
-		</div>
-		<%
-			System.out.println("All fields are empty.");
-				}
-
-			}
-		%>
-	</div>
+		</div> -->
 	
 			<script type="text/javascript" src="js/jquery-3.5.1.slim.min.js"></script>
 	<script type="text/javascript" src="js/popper.min.js"></script>

@@ -92,7 +92,7 @@ public class MvcConfig {
     public String viewemp(Model m){    
         List<Emp> list=emplist;    
         m.addAttribute("list",list);  
-        return "viewemp";    
+        return "hotfixResult";    
     }    
     /* It displays object data into form for the given id.   
      * The @PathVariable puts URL data into variable.*/    
