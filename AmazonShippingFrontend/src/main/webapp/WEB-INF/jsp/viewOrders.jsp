@@ -54,7 +54,7 @@ html, body {
 
 
 </head>
-<body>
+<body style="margin:10px">
 	<div class="alert Box-header--blue  text-center" role="alert">
 		Results found:
 			<span class="badge badge-pill badge-secondary"></span>
@@ -463,8 +463,13 @@ html, body {
 
 			</div>
 			</c:forEach>  
+					
 			
 		</div>
+		<br>
+		<a href="empform" class="btn btn-success btn-sm" id="addEmpBtn_${emp.id}">
+					Add Employee
+					</a>
 		<!-- <div class="alert alert-warning" role="alert">
 			<h4 class="alert-heading">Oops !</h4>
 			<p>No matching records found.</p>
