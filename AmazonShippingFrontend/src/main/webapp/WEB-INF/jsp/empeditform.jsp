@@ -34,33 +34,107 @@ html, body {
 </head>
 <body>
 
-  
-        <h1>Edit Employee</h1>  
+  	<div class="container-fluid h-100" id="container-fluid">
+
+		<div class="row h-100">
+
+			<div class="col-md-12 search-panel">
+				<div class="row justify-content-center"
+					style="background-color: #7952b3">
+					<h2 class="text-white"
+						style="margin: 5px; font-family: 'Noto Serif', serif;"
+						align="center">Edit Order Details</h2>
+				</div>
+				<div class="row justify-content-center">
+				
+				<form:form method="post" action="/editsave">
+
+					<div class="form-row">
+						<div class="col">
+							<form:input path="order_id" placeholder="Order ID" cssStyle="margin-bottom: 5px;" 
+							cssClass="form-control form-control-sm" disabled="true" />
+						</div>
+						<div class="col">
+						<form:input path="order_item_id" placeholder="Order Item ID" cssStyle="margin-bottom: 5px;" 
+							cssClass="form-control form-control-sm" />
+							
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="col">
+							<form:input path="buyer_email" placeholder="Buyer Email" cssStyle="margin-bottom: 5px;" 
+							cssClass="form-control form-control-sm" />
+							
+						</div>
+						<div class="col">
+							<form:input path="buyer_name" placeholder="Buyer Name" cssStyle="margin-bottom: 5px;" 
+							cssClass="form-control form-control-sm" />
+						</div>
+					</div>
+
+
+					<form:input path="buyer_phone_number" placeholder="Buyer Phone" cssStyle="margin-bottom: 5px;" 
+							cssClass="form-control form-control-sm" />
+
+					<div class="form-row">
+						<div class="col">
+							<form:input path="recipient_name" placeholder="Recipient Name" cssStyle="margin-bottom: 5px;" 
+							cssClass="form-control form-control-sm" />
+						</div>
+
+
+						<div class="col">
+							<form:input path="payment_method" placeholder="Payment Method" cssStyle="margin-bottom: 5px;" 
+							cssClass="form-control form-control-sm" />
+						</div>
+					</div>
+
+							<form:input path="cod_collectible_amount" placeholder="COD Amount" cssStyle="margin-bottom: 5px;" 
+							cssClass="form-control form-control-sm" />
+
+
+
+
+					<div class="row justify-content-center">
+					<input type="submit" class="btn btn-outline-danger" value="Edit Save" />
+					</div>
+				</form:form>
+				</div>
+
+
+
+			</div>
+		</div>
+
+
+	</div>
+	
+	<!--  -->
+<%--         <h1>Edit Order</h1>  
        <form:form method="post" action="/editsave">    
         <table >    
-        <tr>  
-          <td>Id : </td>   
-         <td><form:input path="id" class="form-control"/></td>  
-         </tr>   
          <tr>    
-          <td>Name : </td>   
-          <td><form:input path="name" class="form-control" />
-          </td>  
+          <td>Order ID : </td>   
+          <td><form:input path="order_id" class="form-control" disabled="true" /></td>  
+         </tr>    
+         
+         <tr>    
+          <td>Buyer Email : </td>   
+          <td><form:input path="buyer_email" class="form-control" /></td>  
          </tr>    
          <tr>    
-          <td>Salary :</td>    
-          <td><form:input path="salary" class="form-control"/></td>  
+          <td>Buyer Name :</td>    
+          <td><form:input path="buyer_name" class="form-control" /></td>  
          </tr>   
          <tr>    
-          <td>Designation :</td>    
-          <td><form:input path="designation" class="form-control"/></td>  
+          <td>Buyer Phone :</td>    
+          <td><form:input path="buyer_phone_number" class="form-control" /></td>  
          </tr>   
-           
          <tr>    
           <td> </td>    
           <td><input type="submit" class="btn btn-warning btn-sm" value="Edit Save" /></td>    
          </tr>    
         </table>    
-       </form:form>    
+       </form:form> --%>    
 </body>
 </html>

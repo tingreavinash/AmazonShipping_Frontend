@@ -1,10 +1,13 @@
 package com.avinash.amazonshipping.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +30,7 @@ import com.avinash.amazonshipping.model.Order;
 @Controller
 public class MvcConfig {
 	
-	List<Emp> emplist= new ArrayList<Emp>();
+	List<Order> sampleList= new ArrayList<Order>();
 	
 	@GetMapping("/")
 	public String index() {
@@ -75,47 +78,71 @@ public class MvcConfig {
      */    
     @RequestMapping("/empform")    
     public String showform(Model m){    
-        m.addAttribute("command", new Emp());  
+        m.addAttribute("command", new Order());  
         return "empform";   
     }    
     /*It saves object into database. The @ModelAttribute puts request data  
      *  into model object. You need to mention RequestMethod.POST method   
      *  because default request is GET*/    
     @RequestMapping(value="/save",method = RequestMethod.POST)    
-    public String save(@ModelAttribute("emp") Emp emp){    
-        //dao.save(emp);
-    	emplist.add(emp);
+    public String save(@ModelAttribute("order") Order order){    
+        
+    	Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    	String username="-";
+    	if (principal instanceof UserDetails) {
+    	  username = ((UserDetails)principal).getUsername();
+    	} else {
+    	  username = principal.toString();
+    	}
+    	
+    	order.setRecord_created_by(username);
+    	order.setRecord_last_modified(new Date().toString());
+    	sampleList.add(order);
         return "redirect:/viewemp";//will redirect to viewemp request mapping    
     }    
     /* It provides list of employees in model object */    
     @RequestMapping("/viewemp")    
     public String viewemp(Model m){    
-        List<Emp> list=emplist;    
-        m.addAttribute("list",list);  
+        //List<Emp> list=samplelist;
+        List<Order> orderList=sampleList;
+        m.addAttribute("list",orderList);  
         return "viewOrders";    
     }    
     /* It displays object data into form for the given id.   
      * The @PathVariable puts URL data into variable.*/    
-    @RequestMapping(value="/editemp/{id}")    
-    public String edit(@PathVariable int id, Model m){    
-    	Emp emp = new Emp();
-    	for (Emp e: emplist) {
-        	if(e.getId() == id){
-        		emp= e;
+    @RequestMapping(value="/editemp/{order_id}")    
+    public String edit(@PathVariable String order_id, Model m){    
+    	//Emp emp = new Emp();
+    	System.out.println("Order ID: "+order_id);
+    	Order order = new Order();
+    	for (Order o: sampleList) {
+        	if(order_id.equals(o.getOrder_id())){
+        		order= o;
         	}
         }
-        m.addAttribute("command",emp);  
+    	
+        m.addAttribute("command",order);  
         return "empeditform";    
     }    
     /* It updates model object. */    
     @RequestMapping(value="/editsave",method = RequestMethod.POST)    
-    public String editsave(@ModelAttribute("emp") Emp emp){    
+    public String editsave(@ModelAttribute("order") Order order){    
+    	Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    	String username="-";
+    	if (principal instanceof UserDetails) {
+    	  username = ((UserDetails)principal).getUsername();
+    	} else {
+    	  username = principal.toString();
+    	}
     	
-    	for (Emp e: emplist) {
-        	if(e.getId() == emp.getId()){
-        		e.setName(emp.getName());
-        		e.setDesignation(emp.getDesignation());
-        		e.setSalary(emp.getSalary());
+    	System.out.println("Input Order: "+order);
+    	for (Order o: sampleList) {
+        	if(order.getOrder_id().equals(o.getOrder_id())){
+        		o.setBuyer_email(order.getBuyer_email());
+        		o.setBuyer_name(order.getBuyer_name());
+        		o.setBuyer_phone_number(order.getBuyer_phone_number());
+        		o.setRecord_created_by(username);
+        		o.setRecord_last_modified(new Date().toString());
         		
         	}
         }
@@ -124,11 +151,11 @@ public class MvcConfig {
         return "redirect:/viewemp";    
     }    
     /* It deletes record for the given id in URL and redirects to /viewemp */    
-    @RequestMapping(value="/deleteemp/{id}",method = RequestMethod.GET)    
-    public String delete(@PathVariable int id){    
-    	for (Emp e: emplist) {
-        	if(e.getId() == id){
-        		emplist.remove(e);
+    @RequestMapping(value="/deleteemp/{order_id}",method = RequestMethod.GET)    
+    public String delete(@PathVariable String order_id){    
+    	for (Order o: sampleList) {
+        	if(order_id.equals(o.getOrder_id()) ){
+        		sampleList.remove(o);
         	}
         }
     	

@@ -284,6 +284,26 @@ public class Order {
 	public void setIs_sold_by_ab(boolean is_sold_by_ab) {
 		this.is_sold_by_ab = is_sold_by_ab;
 	}
+	@Override
+	public String toString() {
+		return "Order [order_id=" + order_id + ", order_item_id=" + order_item_id + ", purchase_date=" + purchase_date
+				+ ", payments_date=" + payments_date + ", reporting_date=" + reporting_date + ", promise_date="
+				+ promise_date + ", days_past_promise=" + days_past_promise + ", buyer_email=" + buyer_email
+				+ ", buyer_name=" + buyer_name + ", buyer_phone_number=" + buyer_phone_number + ", sku=" + sku
+				+ ", product_name=" + product_name + ", quantity_purchased=" + quantity_purchased
+				+ ", quantity_shipped=" + quantity_shipped + ", quantity_to_ship=" + quantity_to_ship
+				+ ", ship_service_level=" + ship_service_level + ", ship_service_name=" + ship_service_name
+				+ ", recipient_name=" + recipient_name + ", ship_address_1=" + ship_address_1 + ", ship_address_2="
+				+ ship_address_2 + ", ship_address_3=" + ship_address_3 + ", ship_city=" + ship_city + ", ship_state="
+				+ ship_state + ", ship_postal_code=" + ship_postal_code + ", ship_country=" + ship_country
+				+ ", payment_method=" + payment_method + ", cod_collectible_amount=" + cod_collectible_amount
+				+ ", already_paid=" + already_paid + ", payment_method_fee=" + payment_method_fee
+				+ ", is_business_order=" + is_business_order + ", purchase_order_number=" + purchase_order_number
+				+ ", price_designation=" + price_designation + ", is_prime=" + is_prime + ", fulfilled_by="
+				+ fulfilled_by + ", shipment_status=" + shipment_status + ", is_sold_by_ab=" + is_sold_by_ab
+				+ ", tracking_id=" + tracking_id + ", courier_code=" + courier_code + ", record_created_by="
+				+ record_created_by + ", record_last_modified=" + record_last_modified + "]";
+	}
 	
 	
 	

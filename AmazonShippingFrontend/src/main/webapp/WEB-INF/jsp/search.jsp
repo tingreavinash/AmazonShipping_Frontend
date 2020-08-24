@@ -1,12 +1,4 @@
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="security" %>
-<%@page import="java.util.Base64"%>
-<%@page import="java.util.Date"%>
-<%@page import="java.net.InetAddress"%>
-<%@page import="java.util.List"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="java.util.Arrays"%>
-<%@page import="java.net.HttpURLConnection"%>
-<%@page import="java.net.URL"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="UTF8"%>
 
@@ -47,16 +39,16 @@ html, body {
 
 		<div class="row h-100">
 
-			<div class="col-md-4 search-panel">
+			<div class="col-md-12 search-panel">
 				<div class="row justify-content-center"
 					style="background-color: #7952b3">
 					<h2 class="text-white"
 						style="margin: 5px; font-family: 'Noto Serif', serif;"
 						align="center">Hotfix Log Viewer</h2>
 				</div>
-
+				<div class="row justify-content-center">
 				<form autocomplete="off" action="/SearchResult" method="post"
-					style="margin-top: 10px;">
+					style="margin-top: 10px; max-width: 700px;">
 
 					<div class="form-row" style="margin-bottom: 5px; max-height: 300px">
 					</div>
@@ -127,153 +119,10 @@ html, body {
 						</button>
 					</div>
 				</form>
-
-
-
-			</div>
-			<div class="col-md-8 custom-scrollbar-css"
-				style="max-height: 100%; padding: 10px; overflow-y: scroll;">
-
-
-
-
-
-				<div id="copyToastWrapper" aria-live="polite" aria-atomic="true"
-					style="position: relative; display:none">
-					<div id="copyToast" class="toast"
-						style="min-width: 200px; z-index: 9; position: fixed; top: 20px; right: 20px;"
-						role="alert" data-delay="10000" aria-live="assertive"
-						aria-atomic="true">
-						<div class="toast-header">
-							<strong class="mr-auto">Copied to clipboard !</strong>
-							<button type="button" class="ml-2 mb-1 close"
-								data-dismiss="toast" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-						</div>
-						<div id="copyToastBody" class="toast-body">Hotfix Details
-							Copied.</div>
-					</div>
-				</div>
-				<!-- 	<img alt="Test image" src="image/search_graphic.png"> -->
-				<%
-					if (!"searchClicked".equals(request.getParameter("searchBtn"))) {
-				%>
-				<div class="background-search-img"></div>
-
-				<%
-					}
-				%>
-				
-				
-				<div
-					style="opacity: 0.8; position: fixed; bottom: 10px; right: 60px; z-index: 6;">
-					<button class="btn btn-warning text-white " data-toggle="modal"
-						data-target="#guideline_modal">
-						<i class="fas fa-info-circle"></i>
-					</button>
 				</div>
 
-				<!-- Modal -->
-				<div class="modal fade" id="guideline_modal" tabindex="-1"
-					role="dialog" aria-labelledby="custom_modal_title"
-					aria-hidden="true">
-					<div class="modal-dialog modal-dialog-centered"
-						style="max-width: 700px" role="document">
-						<div class="modal-content">
 
-							<div class="modal-header">
-								<h5 class="modal-title" id="custom_modal_title">Information</h5>
-							</div>
-							<div class="modal-body">
-								<ul>
-									<li>Results are order by <code>Released date</code>.
-									</li>
-									<li>Click on the Hotfix number to <code>copy</code> the
-										details to clipboard.
-									</li>
-									<li>Results are searched by <code>Regular
-											Expression</code> according to input.
-									</li>
-									<li>If the HF is faulty, <span
-										class="badge badge-pill badge-danger">FAULTY</span> will be
-										displayed.
-									</li>
-									<li>If the HF is latest, <span
-										class="badge badge-pill badge-success">LATEST</span> will be
-										displayed.
-									</li>
-								</ul>
-							</div>
-							<div class="modal-footer">
-								<button type="button"
-									class="btn btn-sm btn-custom-bg text-white"
-									data-dismiss="modal" id="result_close_btn">Close</button>
 
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div
-					style="opacity: 0.8; position: fixed; bottom: 10px; right: 10px; z-index: 6;">
-					<button class="btn btn-warning text-white" type="submit"
-						name="profileBtn" value="profileClicked" data-toggle="modal"
-						data-target="#info_modal">
-						<i class="fas fa-paper-plane"></i>
-					</button>
-				</div>
-
-										<!-- Modal -->
-				<div class="modal fade text-center" id="info_modal" tabindex="-1"
-					role="dialog" aria-labelledby="custom_modal_title"
-					aria-hidden="true">
-					<div class="modal-dialog modal-dialog-centered" role="document">
-						<div class="modal-content">
-
-							<div class="modal-body" id="custom_modal_body">
-								<div class="circle-image ">
-									<img alt="info_image" src="../image/profile.jpg"
-										class="profile-pic">
-								</div>
-								<br>
-								<h4 class="modal-title" id="custom_modal_title">
-									<b>Avinash Tingre</b>
-								</h4>
-								Software Support Engineer<br>with 2.5+ years of experience<br>
-								
-								<div class="row align-items-center justify-content-center" style="margin-top: 20px;">
-								
-								
-								<div class="col col-sm-4">
-									<div class="btn-group" role="group" aria-label="Basic example">
-  										<button type="button" class="btn btn-outline-success btn-sm" disabled><i class="fas fa-envelope"></i></button>
-  										<a href="mailto:avinash.tingre@amdocs.com" id="mail_anchor" role="button" class="btn btn-outline-success btn-sm">Drop a Mail</a>
-									</div>
-								</div>
-
-								<div class="col col-sm-4">
-									<div class="btn-group" role="group" aria-label="Basic example">
-  										<button type="button" class="btn btn-outline-success btn-sm" disabled><i class="fas fa-comment"></i></button>
-  										<a href="sip:avinash.tingre@amdocs.com" id="chat_anchor" role="button" class="btn btn-outline-success btn-sm">Say Hello</a>
-									</div>
-								</div>
-								
-	
-						
-								
-								</div>		
-
-							</div>
-							<div class="modal-footer">
-								<button type="button"
-									class="btn btn-secondary btn-sm"
-									data-dismiss="modal" id="result_close_btn">Close</button>
-
-							</div>
-						</div>
-					</div>
-				</div>
 			</div>
 		</div>
 

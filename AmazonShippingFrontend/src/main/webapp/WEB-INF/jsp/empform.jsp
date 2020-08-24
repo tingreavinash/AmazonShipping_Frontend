@@ -34,25 +34,25 @@ html, body {
 </head>
 <body>
 
-        <h1>Add New Employee</h1>  
+        <h1>Add New Order</h1>  
        <form:form method="post" action="save">    
         <table >    
          <tr>    
-          <td>Id : </td>   
-          <td><form:input path="id" class="form-control" /></td>  
+          <td>Order ID : </td>   
+          <td><form:input path="order_id" class="form-control"/></td>  
          </tr>    
          
          <tr>    
-          <td>Name : </td>   
-          <td><form:input path="name" class="form-control" /></td>  
+          <td>Buyer Email : </td>   
+          <td><form:input path="buyer_email" class="form-control" /></td>  
          </tr>    
          <tr>    
-          <td>Salary :</td>    
-          <td><form:input path="salary" class="form-control" /></td>  
+          <td>Buyer Name :</td>    
+          <td><form:input path="buyer_name" class="form-control" /></td>  
          </tr>   
          <tr>    
-          <td>Designation :</td>    
-          <td><form:input path="designation" class="form-control" /></td>  
+          <td>Buyer Phone :</td>    
+          <td><form:input path="buyer_phone_number" class="form-control" /></td>  
          </tr>   
          <tr>    
           <td> </td>    
