@@ -21,7 +21,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Service
 public class RestClient {
 
-	@Value("${key.REST_URL}")
+	@Value("${API.REST_URL}")
 	private String REST_URL;
 
 	public ApiResponse callAPI(String endpoint, String requestMethod, String requestBody) {

@@ -31,7 +31,7 @@ public class UserDao {
 	@Autowired
 	private RestClient restClient;
 
-	@Value("${key.ENDPOINT_GETUSERDETAILS}")
+	@Value("${API.ENDPOINT_GETUSERDETAILS}")
 	private String ENDPOINT_GETUSERDETAILS;
 
 	public User findUserByUsername(String username) {

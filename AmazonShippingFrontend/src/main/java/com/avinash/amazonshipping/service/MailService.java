@@ -27,7 +27,7 @@ public class MailService {
 	@Autowired
 	RestClient restClient;
 
-	@Value("${key.ENDPOINT_SENDMAIL}")
+	@Value("${API.ENDPOINT_SENDMAIL}")
 	private String ENDPOINT_SENDMAIL;
 
 	public String sendMail(Mail mail) throws JsonProcessingException {
