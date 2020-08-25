@@ -16,22 +16,17 @@ public class CustomUserDetailsService implements UserDetailsService {
 
 	@Autowired
 	private UserDao userDao;
-	
+
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		System.out.println("Username: "+username);
 		User user = userDao.findUserByUsername(username);
-		System.out.println("Inside loadUserByUsername");
-		
-		if (user==null) {
+
+		if (user == null) {
 			System.out.println("User is null..");
 			throw new UsernameNotFoundException(username);
 		}
-		System.out.println(user);
 		CustomUserPrincipal userDetails = new CustomUserPrincipal(user);
-		System.out.println(userDetails.getAuthorities());
 		return userDetails;
 	}
 
-	
 }

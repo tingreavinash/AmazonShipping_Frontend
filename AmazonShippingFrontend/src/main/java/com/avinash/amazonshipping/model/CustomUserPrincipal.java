@@ -5,14 +5,15 @@ import java.util.Collection;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-public class CustomUserPrincipal implements UserDetails{
+public class CustomUserPrincipal implements UserDetails {
 
 	private User user;
-	
+
 	public CustomUserPrincipal(User user) {
 		this.user = user;
-		
+
 	}
+
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		// TODO Auto-generated method stub
