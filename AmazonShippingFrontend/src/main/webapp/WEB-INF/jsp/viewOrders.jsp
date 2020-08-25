@@ -40,7 +40,9 @@ html, body {
 	</div>
 	<div class="alert Box-header text-center">
 		<span style="font-size: 13px; color: white"
-			class="badge badge-warning badge-mb">Search Query: </span>
+			class="badge badge-warning badge-mb">Search Query: </span><br>
+			<a href="logout" class="btn btn-success btn-sm" style="margin-top:10px;">Logout</a>
+			
 	</div>
 	<div class="list-group " id="hflist" style="margin-top: 10px;">
 		<div class="row Box-hotfix-title">
