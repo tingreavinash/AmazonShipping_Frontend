@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,12 +26,16 @@ import org.springframework.web.servlet.view.JstlView;
 
 import com.avinash.amazonshipping.model.Emp;
 import com.avinash.amazonshipping.model.Order;
+import com.avinash.amazonshipping.service.MailService;
 
 
 @Controller
 public class MvcConfig {
 	
 	List<Order> sampleList= new ArrayList<Order>();
+	
+	@Autowired
+	MailService mailService;
 	
 	@GetMapping("/")
 	public String index() {
@@ -98,7 +103,11 @@ public class MvcConfig {
     	order.setRecord_created_by(username);
     	order.setRecord_last_modified(new Date().toString());
     	sampleList.add(order);
-        return "redirect:/viewemp";//will redirect to viewemp request mapping    
+    	
+    	String result =mailService.sendMail(order.getOrder_id(), username);
+    	System.out.println("Mail Status: "+result);
+        
+    	return "redirect:/viewemp";//will redirect to viewemp request mapping    
     }    
     /* It provides list of employees in model object */    
     @RequestMapping("/viewemp")    
@@ -152,7 +161,8 @@ public class MvcConfig {
         		
         	}
         }
-    	
+    	String result =mailService.sendMail(order.getOrder_id(), username);
+    	System.out.println("Mail Status: "+result);
     	//dao.update(emp);    
         return "redirect:/viewemp";    
     }    
