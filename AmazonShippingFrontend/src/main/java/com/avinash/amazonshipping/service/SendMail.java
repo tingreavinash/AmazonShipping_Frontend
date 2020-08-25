@@ -16,7 +16,7 @@ public class SendMail {
 
         String to = "skncoeavinash@gmail.com";
 
-        String from = "tingre.avinash@gmail.com";
+        String from = "atultingre.test@gmail.com";
 
         // Assuming you are sending email from through gmails smtp
         String host = "smtp.gmail.com";
