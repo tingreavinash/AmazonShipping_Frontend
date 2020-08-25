@@ -127,6 +127,7 @@ public class MvcConfig {
     /* It updates model object. */    
     @RequestMapping(value="/editsave",method = RequestMethod.POST)    
     public String editsave(@ModelAttribute("order") Order order){    
+    	
     	Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     	String username="-";
     	if (principal instanceof UserDetails) {
@@ -141,6 +142,11 @@ public class MvcConfig {
         		o.setBuyer_email(order.getBuyer_email());
         		o.setBuyer_name(order.getBuyer_name());
         		o.setBuyer_phone_number(order.getBuyer_phone_number());
+        		o.setOrder_item_id(order.getOrder_item_id());
+        		o.setRecipient_name(order.getRecipient_name());
+        		o.setPayment_method(order.getPayment_method());
+        		o.setCod_collectible_amount(order.getCod_collectible_amount());
+        		
         		o.setRecord_created_by(username);
         		o.setRecord_last_modified(new Date().toString());
         		

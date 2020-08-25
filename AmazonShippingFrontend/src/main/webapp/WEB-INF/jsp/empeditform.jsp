@@ -41,9 +41,9 @@ html, body {
 			<div class="col-md-12 search-panel">
 				<div class="row justify-content-center"
 					style="background-color: #7952b3">
-					<h2 class="text-white"
+					<h3 class="text-white"
 						style="margin: 5px; font-family: 'Noto Serif', serif;"
-						align="center">Edit Order Details</h2>
+						align="center">Edit Order Details</h3>
 				</div>
 				<div class="row justify-content-center">
 				
@@ -51,9 +51,12 @@ html, body {
 
 					<div class="form-row">
 						<div class="col">
-							<form:input path="order_id" placeholder="Order ID" cssStyle="margin-bottom: 5px;" 
-							cssClass="form-control form-control-sm" disabled="true" />
+						<span class="badge badge-pill badge-success">${order_id}</span>
 						</div>
+					</div>
+					<div class="form-row">
+						<form:hidden path="order_id" placeholder="Order ID" cssStyle="margin-bottom: 5px;" 
+							cssClass="form-control form-control-sm" />
 						<div class="col">
 						<form:input path="order_item_id" placeholder="Order Item ID" cssStyle="margin-bottom: 5px;" 
 							cssClass="form-control form-control-sm" />
@@ -63,7 +66,7 @@ html, body {
 					<div class="form-row">
 						<div class="col">
 							<form:input path="buyer_email" placeholder="Buyer Email" cssStyle="margin-bottom: 5px;" 
-							cssClass="form-control form-control-sm" />
+							cssClass="form-control form-control-sm" readonly="true" />
 							
 						</div>
 						<div class="col">
@@ -115,7 +118,7 @@ html, body {
         <table >    
          <tr>    
           <td>Order ID : </td>   
-          <td><form:input path="order_id" class="form-control" disabled="true" /></td>  
+          <td><form:input path="order_id" class="form-control" /></td>  
          </tr>    
          
          <tr>    
@@ -135,6 +138,6 @@ html, body {
           <td><input type="submit" class="btn btn-warning btn-sm" value="Edit Save" /></td>    
          </tr>    
         </table>    
-       </form:form> --%>    
+       </form:form> --%>   
 </body>
 </html>
