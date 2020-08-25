@@ -28,6 +28,7 @@ import com.avinash.amazonshipping.model.Emp;
 import com.avinash.amazonshipping.model.Mail;
 import com.avinash.amazonshipping.model.Order;
 import com.avinash.amazonshipping.service.MailService;
+import com.avinash.amazonshipping.service.OrderService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 @Controller
@@ -38,6 +39,10 @@ public class MvcConfig {
 	@Autowired
 	MailService mailService;
 
+	@Autowired
+	OrderService orderService;
+
+	
 	@GetMapping("/")
 	public String index() {
 		return "index";
@@ -101,7 +106,10 @@ public class MvcConfig {
 
 		order.setRecord_created_by(username);
 		order.setRecord_last_modified(new Date().toString());
-		sampleList.add(order);
+
+		//sampleList.add(order);
+		orderService.createOrder(order);
+
 		Mail mail = new Mail();
 		mail.setBody("Order ID:" + order.getOrder_id() + "\nUpdated By: " + username);
 		mail.setSubject("Order Notification");
@@ -118,9 +126,10 @@ public class MvcConfig {
 
 	/* It provides list of employees in model object */
 	@RequestMapping("/viewemp")
-	public String viewemp(Model m) {
-		// List<Emp> list=samplelist;
-		List<Order> orderList = sampleList;
+	public String viewemp(Model m) throws JsonProcessingException {
+		
+		//List<Order> orderList = sampleList;
+		List<Order> orderList = orderService.getAllOrders();
 		m.addAttribute("list", orderList);
 		return "viewOrders";
 	}
@@ -130,11 +139,12 @@ public class MvcConfig {
 	 * URL data into variable.
 	 */
 	@RequestMapping(value = "/editemp/{order_id}")
-	public String edit(@PathVariable String order_id, Model m) {
+	public String edit(@PathVariable String order_id, Model m) throws JsonProcessingException {
 		// Emp emp = new Emp();
 		System.out.println("Order ID: " + order_id);
+		List<Order> orderList = orderService.getAllOrders();
 		Order order = new Order();
-		for (Order o : sampleList) {
+		for (Order o : orderList) {
 			if (order_id.equals(o.getOrder_id())) {
 				order = o;
 			}
@@ -157,7 +167,7 @@ public class MvcConfig {
 		}
 
 		System.out.println("Input Order: " + order);
-		for (Order o : sampleList) {
+		/*for (Order o : sampleList) {
 			if (order.getOrder_id().equals(o.getOrder_id())) {
 				o.setBuyer_email(order.getBuyer_email());
 				o.setBuyer_name(order.getBuyer_name());
@@ -166,12 +176,18 @@ public class MvcConfig {
 				o.setRecipient_name(order.getRecipient_name());
 				o.setPayment_method(order.getPayment_method());
 				o.setCod_collectible_amount(order.getCod_collectible_amount());
+				o.setTracking_id(order.getTracking_id());
+				o.setCourier_code(order.getCourier_code());
 
 				o.setRecord_created_by(username);
 				o.setRecord_last_modified(new Date().toString());
 
 			}
-		}
+		}*/
+		order.setRecord_created_by(username);
+		order.setRecord_last_modified(new Date().toString());
+		orderService.updateOrder(order);
+		
 		Mail mail = new Mail();
 		mail.setBody("Order ID:" + order.getOrder_id() + "\nUpdated By: " + username);
 		mail.setSubject("Order Notification");
@@ -190,11 +206,13 @@ public class MvcConfig {
 	/* It deletes record for the given id in URL and redirects to /viewemp */
 	@RequestMapping(value = "/deleteemp/{order_id}", method = RequestMethod.GET)
 	public String delete(@PathVariable String order_id) {
-		for (Order o : sampleList) {
+		/*for (Order o : sampleList) {
 			if (order_id.equals(o.getOrder_id())) {
 				sampleList.remove(o);
 			}
-		}
+		}*/
+		
+		orderService.deleteOrder(order_id);
 
 		// dao.delete(id);
 		return "redirect:/viewemp";

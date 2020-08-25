@@ -43,7 +43,7 @@ public class RestClient {
 			con.setConnectTimeout(10000);
 			con.setReadTimeout(10000);
 
-			if (Values.POST.equalsIgnoreCase(requestMethod) && requestBody != null) {
+			if (requestBody != null) {
 				con.setDoOutput(true);
 				try (OutputStream os = con.getOutputStream()) {
 					byte[] input = requestBody.getBytes("utf-8");
@@ -53,19 +53,9 @@ public class RestClient {
 
 			int status = con.getResponseCode();
 			if (status != 200) {
-				Reader streamReader = null;
-
-				BufferedReader in = new BufferedReader(streamReader);
-				String inputLine;
-				StringBuffer content = new StringBuffer();
-				while ((inputLine = in.readLine()) != null) {
-					content.append(inputLine);
-				}
-				in.close();
-				System.out.println("Below error occured: \n" + content.toString());
 
 				response.setStatuscode(status);
-				response.setOutput(content.toString());
+				response.setOutput("Unknown Failure.");
 
 			} else {
 				BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream(), "utf-8"));

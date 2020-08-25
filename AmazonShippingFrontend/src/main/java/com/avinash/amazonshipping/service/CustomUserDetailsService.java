@@ -15,7 +15,7 @@ import com.avinash.amazonshipping.model.User;
 public class CustomUserDetailsService implements UserDetailsService {
 
 	@Autowired
-	private UserDao userDao;
+	private UserService userDao;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

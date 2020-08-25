@@ -23,7 +23,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Repository
-public class UserDao {
+public class UserService {
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;

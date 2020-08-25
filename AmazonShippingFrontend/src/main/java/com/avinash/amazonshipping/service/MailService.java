@@ -32,8 +32,8 @@ public class MailService {
 
 	public String sendMail(Mail mail) throws JsonProcessingException {
 		ObjectMapper mapper = new ObjectMapper();
-		String mailString = mapper.writeValueAsString(mail);
-		ApiResponse apiResponse = restClient.callAPI(ENDPOINT_SENDMAIL, Values.POST, mailString);
+		String jsonString = mapper.writeValueAsString(mail);
+		ApiResponse apiResponse = restClient.callAPI(ENDPOINT_SENDMAIL, Values.POST, jsonString);
 		if (Values.FAILURE.equals(apiResponse.getOutput())) {
 			return Values.FAILURE;
 		}
