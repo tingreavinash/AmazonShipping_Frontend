@@ -3,13 +3,11 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Spring Security Example</title>
+        <title>Amazon Parcel Delivery</title>
     </head>
     <body>
-        <a href="user">User</a> <a href="admin">Admin</a> <br> <br>  
-		Welcome to Javatpoint!
-		
-		<a href="empform">Add Employee</a>  
-		<a href="viewemp">View Employees</a>      
+        
+		<a href="empform">Add Order</a>  
+		<a href="viewemp">View Orders</a>      
     </body>
 </html>
