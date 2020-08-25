@@ -40,8 +40,8 @@ public class RestClient {
 			con.setRequestProperty("Content-Type", "application/json");
 			con.setRequestProperty("Accept", "application/json");
 
-			con.setConnectTimeout(10000);
-			con.setReadTimeout(10000);
+			con.setConnectTimeout(50000);
+			con.setReadTimeout(50000);
 
 			if (requestBody != null) {
 				con.setDoOutput(true);
