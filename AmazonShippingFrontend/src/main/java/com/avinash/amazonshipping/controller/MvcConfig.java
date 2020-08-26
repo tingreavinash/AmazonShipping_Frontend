@@ -171,12 +171,39 @@ public class MvcConfig {
 	
 	@RequestMapping(value = "/batcheditsave", method = RequestMethod.POST)
 	public String batcheditsave(@ModelAttribute("orderListWrapper") OrderListWrapper orderList) throws JsonProcessingException {
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String username = "-";
+		if (principal instanceof UserDetails) {
+			username = ((UserDetails) principal).getUsername();
+		} else {
+			username = principal.toString();
+		}
+
+
 		List<Order> list = orderList.getOrderList();
 		for(Order o: list) {
-			System.out.println("Batch order: "+o.getOrder_id());
+			o.setRecord_created_by(username);
+			o.setRecord_last_modified(new Date().toString());
 		}
 		orderService.updateBatchOrders(list);
+		
+		Mail mail = new Mail();
+		String msgbody = "Below Orders updated by: "+username;
+		
+		for (Order o: list) {
+			msgbody+="\n"+o.getOrder_id();
+		}
+		mail.setBody(msgbody);
+		mail.setSubject("Order Notification - Batch Update");
+		List<String> recipient = new ArrayList<>();
+		recipient.add("skncoeavinash@gmail.com");
+		recipient.add("tingre.avinash@gmail.com");
+		mail.setRecipient(recipient);
 
+		String result = mailService.sendMail(mail);
+		System.out.println("Mail Status: " + result);
+
+		
 		return "redirect:/viewemp";
 	}
 
