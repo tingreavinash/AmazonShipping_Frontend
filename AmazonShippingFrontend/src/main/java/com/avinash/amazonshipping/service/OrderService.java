@@ -12,6 +12,7 @@ import com.avinash.amazonshipping.constant.Values;
 import com.avinash.amazonshipping.model.ApiResponse;
 import com.avinash.amazonshipping.model.Order;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
@@ -31,6 +32,9 @@ public class OrderService {
 	@Value("${API.ENDPOINT_DELETEORDER}")
 	private String ENDPOINT_DELETEORDER;
 	
+	@Value("${API.ENDPOINT_GETORDERBYID}")
+	private String ENDPOINT_GETORDERBYID;
+	
 	public String createOrder(Order order) throws JsonProcessingException {
 
 		ObjectMapper mapper = new ObjectMapper();
@@ -42,6 +46,19 @@ public class OrderService {
 		return Values.SUCCESS;
 	}
 
+	public Order getOrderByOrderId(String orderid) throws JsonMappingException, JsonProcessingException  {
+
+		ObjectMapper mapper = new ObjectMapper();
+		Order order = new Order();
+		ApiResponse apiResponse = restClient.callAPI(ENDPOINT_GETORDERBYID+orderid, Values.GET, null);
+		if (apiResponse.getStatuscode() != Values.STATUS_OK) {
+			return null;
+		}
+		order = mapper.readValue(apiResponse.getOutput(), Order.class);
+		return order;
+	}
+	
+	
 	public String deleteOrder(String orderid)  {
 
 		//ObjectMapper mapper = new ObjectMapper();

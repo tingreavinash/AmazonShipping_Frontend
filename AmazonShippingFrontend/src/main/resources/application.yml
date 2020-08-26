@@ -6,6 +6,7 @@ API:
   ENDPOINT_GETALLORDERS: getAllOrders
   ENDPOINT_UPDATEORDER: updateOrder
   ENDPOINT_DELETEORDER: deleteOrder?orderid=
+  ENDPOINT_GETORDERBYID: getOrderDetails?orderid=
   
 server:
   port: 8888

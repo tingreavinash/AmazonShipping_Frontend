@@ -142,13 +142,14 @@ public class MvcConfig {
 	public String edit(@PathVariable String order_id, Model m) throws JsonProcessingException {
 		// Emp emp = new Emp();
 		System.out.println("Order ID: " + order_id);
-		List<Order> orderList = orderService.getAllOrders();
+		/*List<Order> orderList = orderService.getAllOrders();
 		Order order = new Order();
 		for (Order o : orderList) {
 			if (order_id.equals(o.getOrder_id())) {
 				order = o;
 			}
-		}
+		}*/
+		Order order = orderService.getOrderByOrderId(order_id);
 
 		m.addAttribute("command", order);
 		return "empeditform";
