@@ -27,6 +27,7 @@ import org.springframework.web.servlet.view.JstlView;
 import com.avinash.amazonshipping.model.Emp;
 import com.avinash.amazonshipping.model.Mail;
 import com.avinash.amazonshipping.model.Order;
+import com.avinash.amazonshipping.model.OrderListWrapper;
 import com.avinash.amazonshipping.service.MailService;
 import com.avinash.amazonshipping.service.OrderService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -155,6 +156,31 @@ public class MvcConfig {
 		return "empeditform";
 	}
 
+	@RequestMapping(value = "/batchEditOrders")
+	public String batchEditOrders( Model m) throws JsonProcessingException {
+				
+		List<Order> list = orderService.getAllOrders();
+		OrderListWrapper olwrapper = new OrderListWrapper();
+		olwrapper.setOrderList(list);
+		for (Order o : list) {
+			System.out.println("order id: "+o.getOrder_id());
+		}
+		m.addAttribute("orderListWrapper", olwrapper);
+		return "batchUpdateOrders";
+	}
+	
+	@RequestMapping(value = "/batcheditsave", method = RequestMethod.POST)
+	public String batcheditsave(@ModelAttribute("orderListWrapper") OrderListWrapper orderList) throws JsonProcessingException {
+		List<Order> list = orderList.getOrderList();
+		for(Order o: list) {
+			System.out.println("Batch order: "+o.getOrder_id());
+		}
+		orderService.updateBatchOrders(list);
+
+		return "redirect:/viewemp";
+	}
+
+	
 	/* It updates model object. */
 	@RequestMapping(value = "/editsave", method = RequestMethod.POST)
 	public String editsave(@ModelAttribute("order") Order order) throws JsonProcessingException {

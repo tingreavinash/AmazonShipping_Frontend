@@ -42,7 +42,9 @@ html, body {
 		<span style="font-size: 13px; color: white"
 			class="badge badge-warning badge-mb">Search Query: </span><br>
 			<a href="logout" class="btn btn-success btn-sm" style="margin-top:10px;">Logout</a>
-			
+			<a href="batchEditOrders" class="btn btn-success btn-sm" style="margin-top:10px;">Batch Update</a>
+			<a href="empform" class="btn btn-success btn-sm" style="margin-top:10px;"
+		id="addEmpBtn_${order.order_id}">Add Order</a>
 	</div>
 	<div class="list-group " id="hflist" style="margin-top: 10px;">
 		<div class="row Box-hotfix-title">
@@ -457,8 +459,7 @@ html, body {
 
 	</div>
 	<br>
-	<a href="empform" class="btn btn-success btn-sm"
-		id="addEmpBtn_${order.order_id}"> Add Employee </a>
+	
 	<!-- <div class="alert alert-warning" role="alert">
 			<h4 class="alert-heading">Oops !</h4>
 			<p>No matching records found.</p>

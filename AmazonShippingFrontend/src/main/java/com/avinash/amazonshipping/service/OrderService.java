@@ -29,6 +29,9 @@ public class OrderService {
 	@Value("${API.ENDPOINT_UPDATEORDER}")
 	private String ENDPOINT_UPDATEORDER;
 
+	@Value("${API.ENDPOINT_UPDATEBATCHORDERS}")
+	private String ENDPOINT_UPDATEBATCHORDERS;
+	
 	@Value("${API.ENDPOINT_DELETEORDER}")
 	private String ENDPOINT_DELETEORDER;
 	
@@ -75,6 +78,19 @@ public class OrderService {
 		ObjectMapper mapper = new ObjectMapper();
 		String jsonString = mapper.writeValueAsString(order);
 		ApiResponse apiResponse = restClient.callAPI(ENDPOINT_UPDATEORDER, Values.PUT, jsonString);
+		if (apiResponse.getStatuscode() != Values.STATUS_OK) {
+			return Values.FAILURE;
+		}
+		return Values.SUCCESS;
+	}
+	
+	public String updateBatchOrders(List<Order> order) throws JsonProcessingException {
+
+		ObjectMapper mapper = new ObjectMapper();
+		String jsonString = mapper.writeValueAsString(order);
+		ApiResponse apiResponse = restClient.callAPI(ENDPOINT_UPDATEBATCHORDERS, Values.PUT, jsonString);
+		System.out.println("output: "+apiResponse.getOutput());
+		System.out.println("Code: "+apiResponse.getStatuscode());
 		if (apiResponse.getStatuscode() != Values.STATUS_OK) {
 			return Values.FAILURE;
 		}

@@ -5,6 +5,7 @@ API:
   ENDPOINT_CREATEORDER: createOrder
   ENDPOINT_GETALLORDERS: getAllOrders
   ENDPOINT_UPDATEORDER: updateOrder
+  ENDPOINT_UPDATEBATCHORDERS: updateBatchOrders
   ENDPOINT_DELETEORDER: deleteOrder?orderid=
   ENDPOINT_GETORDERBYID: getOrderDetails?orderid=
   

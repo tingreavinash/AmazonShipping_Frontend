@@ -11,7 +11,7 @@
 
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Edit Order</title>
+<title>Batch Edit Orders</title>
 <link href="${pageContext.request.contextPath}/css/bootstrap.min.css"
 	rel="stylesheet" type="text/css" />
 
@@ -50,78 +50,101 @@ html, body {
 				</div>
 				<div class="row justify-content-center">
 
-					<form:form method="post" action="/editsave">
+					<form:form method="post" action="/batcheditsave"
+						modelAttribute="orderListWrapper">
 
+
+							<c:forEach var="order" items="${orderListWrapper.orderList}" varStatus="i">
+	<p style="margin:5px" >Order ID: <span class="badge badge-success badge-sm">${order.order_id }</span></p>
+								<div class="row justify-content-center" style="margin:10px;">
+								
+								
+<form:hidden path="orderList[${i.index}].order_id" />								
+<form:hidden path="orderList[${i.index}].purchase_date" />
+<form:hidden path="orderList[${i.index}].payments_date" />
+<form:hidden path="orderList[${i.index}].reporting_date" />
+<form:hidden path="orderList[${i.index}].promise_date" />
+<form:hidden path="orderList[${i.index}].days_past_promise" />
+<form:hidden path="orderList[${i.index}].sku" />
+<form:hidden path="orderList[${i.index}].product_name" />
+<form:hidden path="orderList[${i.index}].quantity_purchased" />
+<form:hidden path="orderList[${i.index}].quantity_shipped" />
+<form:hidden path="orderList[${i.index}].quantity_to_ship" />
+<form:hidden path="orderList[${i.index}].ship_service_level" />
+<form:hidden path="orderList[${i.index}].ship_service_name" />
+<form:hidden path="orderList[${i.index}].recipient_name" />
+<form:hidden path="orderList[${i.index}].ship_address_1" />
+<form:hidden path="orderList[${i.index}].ship_address_2" />
+<form:hidden path="orderList[${i.index}].ship_address_3" />
+<form:hidden path="orderList[${i.index}].ship_city" />
+<form:hidden path="orderList[${i.index}].ship_state" />
+<form:hidden path="orderList[${i.index}].ship_postal_code" />
+<form:hidden path="orderList[${i.index}].ship_country" />
+<form:hidden path="orderList[${i.index}].already_paid" />
+<form:hidden path="orderList[${i.index}].payment_method_fee" />
+<form:hidden path="orderList[${i.index}].is_business_order" />
+<form:hidden path="orderList[${i.index}].purchase_order_number" />
+<form:hidden path="orderList[${i.index}].price_designation" />
+<form:hidden path="orderList[${i.index}].is_prime" />
+<form:hidden path="orderList[${i.index}].fulfilled_by" />
+<form:hidden path="orderList[${i.index}].shipment_status" />
+<form:hidden path="orderList[${i.index}].is_sold_by_ab" />
+<form:hidden path="orderList[${i.index}].record_created_by" />
+<form:hidden path="orderList[${i.index}].record_last_modified" />
+									
+
+						
 						<div class="form-row">
 							<div class="col">
-								<span class="badge badge-pill badge-success">${order_id}</span>
-							</div>
-
-						</div>
-						<div class="form-row">
-							<form:hidden path="order_id" placeholder="Order ID"
-								cssStyle="margin-bottom: 5px;"
-								cssClass="form-control form-control-sm" />
-
-							<div class="col">
-								<form:input path="order_item_id" placeholder="Order Item ID"
-									cssStyle="margin-bottom: 5px;"
-									cssClass="form-control form-control-sm" />
-
-							</div>
-						</div>
-						<div class="form-row">
-							<div class="col">
-								<form:input path="tracking_id" placeholder="Tracking ID"
+								<form:input path="orderList[${i.index}].tracking_id" placeholder="Tracking ID"
 									cssStyle="margin-bottom: 5px;"
 									cssClass="form-control form-control-sm" />
 
 							</div>
 							<div class="col">
-								<form:input path="courier_code" placeholder="Courier Code"
+								<form:input path="orderList[${i.index}].courier_code" placeholder="Courier Code"
 									cssStyle="margin-bottom: 5px;"
 									cssClass="form-control form-control-sm" />
+							</div>
 
+							<div class="col">
+								<form:input path="orderList[${i.index}].order_item_id" placeholder="Order Item ID"
+									cssStyle="margin-bottom: 5px;"
+									cssClass="form-control form-control-sm" />
+							</div>
+							<div class="col">
+								<form:input path="orderList[${i.index}].buyer_email" placeholder="Buyer Email"
+									cssStyle="margin-bottom: 5px;"
+									cssClass="form-control form-control-sm" />
 							</div>
 						</div>
+						</div>
+						
+						<div class="row justify-content-center" style="margin:10px;">
 						<div class="form-row">
 							<div class="col">
-								<form:input path="buyer_email" placeholder="Buyer Email"
+								<form:input path="orderList[${i.index}].buyer_name" placeholder="Buyer Name"
 									cssStyle="margin-bottom: 5px;"
-									cssClass="form-control form-control-sm" readonly="true" />
-
+									cssClass="form-control form-control-sm" />
 							</div>
 							<div class="col">
-								<form:input path="buyer_name" placeholder="Buyer Name"
+								<form:input path="orderList[${i.index}].buyer_phone_number" placeholder="Buyer Phone"
+									cssStyle="margin-bottom: 5px;"
+									cssClass="form-control form-control-sm" />
+							</div>
+							<div class="col">
+								<form:input path="orderList[${i.index}].payment_method" placeholder="Payment Method"
+									cssStyle="margin-bottom: 5px;"
+									cssClass="form-control form-control-sm" />
+							</div>
+							<div class="col">
+								<form:input path="orderList[${i.index}].cod_collectible_amount" placeholder="COD Amount"
 									cssStyle="margin-bottom: 5px;"
 									cssClass="form-control form-control-sm" />
 							</div>
 						</div>
-
-
-						<form:input path="buyer_phone_number" placeholder="Buyer Phone"
-							cssStyle="margin-bottom: 5px;"
-							cssClass="form-control form-control-sm" />
-
-						<div class="form-row">
-							<div class="col">
-								<form:input path="recipient_name" placeholder="Recipient Name"
-									cssStyle="margin-bottom: 5px;"
-									cssClass="form-control form-control-sm" />
-							</div>
-
-
-							<div class="col">
-								<form:input path="payment_method" placeholder="Payment Method"
-									cssStyle="margin-bottom: 5px;"
-									cssClass="form-control form-control-sm" />
-							</div>
-						</div>
-
-						<form:input path="cod_collectible_amount" placeholder="COD Amount"
-							cssStyle="margin-bottom: 5px;"
-							cssClass="form-control form-control-sm" />
-
+					</div>
+							</c:forEach>
 
 
 

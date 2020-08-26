@@ -1,21 +1,6 @@
-<%@page import="com.avinash.amazonshipping.model.Order"%>
-<%@page import="java.net.ConnectException"%>
-<%@page import="java.util.Locale"%>
-<%@page import="java.util.Base64"%>
-<%@page import="java.text.DateFormat"%>
-<%@page import="java.text.SimpleDateFormat"%>
-<%@page import="java.util.Map"%>
-<%@page import="java.util.Date"%>
-<%@page import="java.net.InetAddress"%>
-<%@page import="java.net.URLEncoder"%>
-<%@page import="java.io.Reader"%>
-<%@page import="java.io.InputStreamReader"%>
-<%@page import="java.io.BufferedReader"%>
-<%@page import="com.fasterxml.jackson.databind.ObjectMapper"%>
-<%@page import="java.net.HttpURLConnection"%>
-<%@page import="java.net.URL"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="java.util.List"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="UTF8"%>
 <!DOCTYPE html>
@@ -24,17 +9,16 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Update Order</title>
-<link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<title>Edit Order</title>
+<link href="${pageContext.request.contextPath}/css/bootstrap.min.css"
+	rel="stylesheet" type="text/css" />
 
-<link rel="stylesheet" type="text/css" href="css/index.css">
-<link rel="stylesheet" href="fontawesome-free-5.13.0-web/css/all.css">
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/css/index.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/fontawesome-free-5.13.0-web/css/all.css">
 
 <link
 	href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@700&display=swap"
@@ -49,640 +33,139 @@ html, body {
 </style>
 
 
+
 </head>
 <body>
 
-					<%
-					if ("updateClicked".equals(request.getParameter("updateBtn"))) {
-						System.out.println("Search Clicked");
-					}
-					%>
+	<div class="container-fluid h-100" id="container-fluid">
 
-	<%
-	String show_input = "";
-		if (true) {
-			System.out.println("Test1");
-			String ecpNo = request.getParameter("orderid");
-			//String ecpNo = ${orderid};
-			System.out.println("Test2 ecpNo: "+ecpNo);
-			
-			if (!"".equals(ecpNo)) {
+		<div class="row h-100">
 
-
-				String paramString = "?orderid=" + URLEncoder.encode(ecpNo, "UTF-8");
-
-				String plainInput = "?ecpNo=" + ecpNo ;
-		
-				if(ecpNo!="") show_input=show_input.concat("<b><em>Order ID:</em></b> "+ecpNo+", ");
-
-				ObjectMapper objectMapper = new ObjectMapper();
-				HttpURLConnection con = null;
-				try {
-					
-					URL url = new URL("http://localhost:7777/ShippingApplication/getOrderDetails" + paramString);
-					con = (HttpURLConnection) url.openConnection();
-					con.setRequestMethod("GET");
-					con.setRequestProperty("Content-Type", "application/json");
-					
-					con.setConnectTimeout(5000);
-					con.setReadTimeout(5000);
-
-					int status = con.getResponseCode();
-					if (status > 299) {
-						Reader streamReader = null;
-
-						BufferedReader in = new BufferedReader(streamReader);
-						String inputLine;
-						StringBuffer content = new StringBuffer();
-						while ((inputLine = in.readLine()) != null) {
-							content.append(inputLine);
-						}
-						in.close();
-						System.out.println("Below error occured: \n" + content.toString());
-
-					} else {
-						BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-						String inputLine;
-						StringBuffer content = new StringBuffer();
-						while ((inputLine = in.readLine()) != null) {
-							content.append(inputLine);
-						}
-						in.close();
-						String response1 = content.toString();
-
-						Order respObject = objectMapper.readValue(response1,
-								Order.class);
-						if (respObject != null) {
-	%>
-	<div class="alert Box-header--blue  text-center" role="alert">
-		Results found:
-			<span class="badge badge-pill badge-secondary"></span>
-	
-	</div>
-	<div class="alert Box-header text-center">
-	<span style="font-size: 13px;color:white" class="badge badge-warning badge-mb">Search Query: </span> <%=show_input %>
-	</div>
-	<div class="list-group " id="hflist" style="margin-top:10px;">
-		
-		<%
-			for (int count = 0; count < 1; count++) {
-				Order ecp = new Order();
-				ecp = respObject;
-		%>
-		<div id="ecp_image_<%=ecp.getOrder_id()%>">
-		<a class="list-group-item list-group-item-action hf-details-parent"
-			data-toggle="collapse" href="#hfCollapse<%=ecp.getOrder_id()%>"
-			aria-expanded="false" aria-controls="hfCollapse<%=ecp.getOrder_id()%>">
-			<div class="row hf-list-top">
-				<div class="col col-sm-4 ">
-					
-					<div class="row">
-					<div class="col col-sm-10">
-					<div id="ecpno_<%=ecp.getOrder_id()%>"><%=ecp.getOrder_id()%>
-						</div>
-					
-					</div>
-					<div class="col col-sm-2">
-					<span class="copy_icon" 
-					onclick="copyToClipboard('ecpno_<%=ecp.getOrder_id()%>', 'description_<%=ecp.getOrder_id()%>')"><i class="fas fa-copy"></i></span>
-					
-					</div>
-					</div>
-
-
-
-
+			<div class="col-md-12 search-panel">
+				<div class="row justify-content-center"
+					style="background-color: #7952b3">
+					<h3 class="text-white"
+						style="margin: 5px; font-family: 'Noto Serif', serif;"
+						align="center">Edit Order Details</h3>
 				</div>
-				<div class="col col-sm-8 hf-list-description">
-					<div id="description_<%=ecp.getOrder_id()%>"><%=ecp.getRecipient_name()%></div>
+				<div class="row justify-content-center">
+
+					<form:form method="post" action="/editsave">
+
+						<div class="form-row">
+							<div class="col">
+								<span class="badge badge-pill badge-success">${order_id}</span>
+							</div>
+
+						</div>
+						<div class="form-row">
+							<form:hidden path="order_id" placeholder="Order ID"
+								cssStyle="margin-bottom: 5px;"
+								cssClass="form-control form-control-sm" />
+
+							<div class="col">
+								<form:input path="order_item_id" placeholder="Order Item ID"
+									cssStyle="margin-bottom: 5px;"
+									cssClass="form-control form-control-sm" />
+
+							</div>
+						</div>
+						<div class="form-row">
+							<div class="col">
+								<form:input path="tracking_id" placeholder="Tracking ID"
+									cssStyle="margin-bottom: 5px;"
+									cssClass="form-control form-control-sm" />
+
+							</div>
+							<div class="col">
+								<form:input path="courier_code" placeholder="Courier Code"
+									cssStyle="margin-bottom: 5px;"
+									cssClass="form-control form-control-sm" />
+
+							</div>
+						</div>
+						<div class="form-row">
+							<div class="col">
+								<form:input path="buyer_email" placeholder="Buyer Email"
+									cssStyle="margin-bottom: 5px;"
+									cssClass="form-control form-control-sm" readonly="true" />
+
+							</div>
+							<div class="col">
+								<form:input path="buyer_name" placeholder="Buyer Name"
+									cssStyle="margin-bottom: 5px;"
+									cssClass="form-control form-control-sm" />
+							</div>
+						</div>
+
+
+						<form:input path="buyer_phone_number" placeholder="Buyer Phone"
+							cssStyle="margin-bottom: 5px;"
+							cssClass="form-control form-control-sm" />
+
+						<div class="form-row">
+							<div class="col">
+								<form:input path="recipient_name" placeholder="Recipient Name"
+									cssStyle="margin-bottom: 5px;"
+									cssClass="form-control form-control-sm" />
+							</div>
+
+
+							<div class="col">
+								<form:input path="payment_method" placeholder="Payment Method"
+									cssStyle="margin-bottom: 5px;"
+									cssClass="form-control form-control-sm" />
+							</div>
+						</div>
+
+						<form:input path="cod_collectible_amount" placeholder="COD Amount"
+							cssStyle="margin-bottom: 5px;"
+							cssClass="form-control form-control-sm" />
+
+
+
+
+						<div class="row justify-content-center">
+							<input type="submit" class="btn btn-outline-danger"
+								value="Edit Save" />
+						</div>
+					</form:form>
 				</div>
-			</div>
 
-		</a>
-
-
-		<div class="collapse multi-collapse hf-details-child" style="background-color: white"
-			data-parent="#hflist" id="hfCollapse<%=ecp.getOrder_id()%>">
-				<div class="bd-callout bd-callout-warning">
-					
-					<div class="row justify-content-end">
-					
-					<button class="btn btn-warning btn-sm" style="margin-left: 10px;" onclick="saveImage('ecp_image_<%=ecp.getOrder_id()%>', '<%=ecp.getOrder_id()%>')">
-					Save <i class="fas fa-download"></i>
-					</button>
-					</div>
-					<form method="post">
-					<!-- Row 1 -->
-					<div class="row">
-						<div class="col">
-							<div>
-								<span class="badge badge-pill badge-secondary hf-detail-tag">Buyer Email</span><br>
-								<input type="text" class="form-control" id="exampleFormControlInput1" value="<%=ecp.getBuyer_email()%>"
-								style="margin-top: 3px" disabled>
-							</div>
-
-						</div>
-						<div class="col">
-							<div>
-								<span class="badge badge-pill badge-secondary hf-detail-tag">Buyer Name</span><br>
-								<input type="text" class="form-control" id="exampleFormControlInput1" value="<%=ecp.getBuyer_name()%>"
-								style="margin-top: 3px" disabled>
-								
-							</div>
-						</div>
-						<div class="col">
-							<div>
-								<span class="badge badge-pill badge-secondary hf-detail-tag">Buyer Phone</span><br>
-								<input type="text" class="form-control" id="exampleFormControlInput1" value="<%=ecp.getBuyer_phone_number()%>"
-								style="margin-top: 3px" disabled>
-								
-							</div>
-
-						</div>
-					</div>
-					<!-- Row 2 -->
-					<div class="row">
-						<div class="col">
-							<div>
-								<span class="badge badge-pill badge-secondary hf-detail-tag">Order ID</span><br>
-								<input type="text" class="form-control" id="exampleFormControlInput1" value="<%=ecp.getOrder_id()%>"
-								style="margin-top: 3px" disabled>
-							</div>
-
-						</div>
-						<div class="col">
-							<div>
-								<span class="badge badge-pill badge-secondary hf-detail-tag">Order Item ID</span><br>
-								<input type="text" class="form-control" id="exampleFormControlInput1" value="<%=ecp.getOrder_item_id()%>"
-								style="margin-top: 3px" disabled>
-								
-							</div>
-						</div>
-						<div class="col">
-							<div>
-								<span class="badge badge-pill badge-secondary hf-detail-tag">Purchase Date</span><br>
-								<input type="text" class="form-control" id="exampleFormControlInput1" value="<%=ecp.getPurchase_date()%>"
-								style="margin-top: 3px" disabled>
-								
-							</div>
-
-						</div>
-					</div>
-
-					<!-- Row 3 -->
-					<div class="row">
-						<div class="col">
-							<div>
-								<span class="badge badge-pill badge-secondary hf-detail-tag">Payment Date</span><br>
-								<input type="text" class="form-control" id="exampleFormControlInput1" value="<%=ecp.getPayments_date()%>"
-								style="margin-top: 3px" disabled>
-							</div>
-
-						</div>
-						<div class="col">
-							<div>
-								<span class="badge badge-pill badge-secondary hf-detail-tag">Reporting Date</span><br>
-								<input type="text" class="form-control" id="exampleFormControlInput1" value="<%=ecp.getReporting_date()%>"
-								style="margin-top: 3px" disabled>
-								
-							</div>
-						</div>
-						<div class="col">
-							<div>
-								<span class="badge badge-pill badge-secondary hf-detail-tag">Promise Date</span><br>
-								<input type="text" class="form-control" id="exampleFormControlInput1" value="<%=ecp.getPromise_date()%>"
-								style="margin-top: 3px" disabled>
-								
-							</div>
-
-						</div>
-					</div>
-
-					<!-- Row 4 -->
-					<div class="row">
-						<div class="col">
-							<div>
-								<span class="badge badge-pill badge-secondary hf-detail-tag">Days Past Promise</span><br>
-								<input type="text" class="form-control" id="exampleFormControlInput1" value="<%=ecp.getDays_past_promise()%>"
-								style="margin-top: 3px" disabled>
-							</div>
-
-						</div>
-						<div class="col">
-							<div>
-								<span class="badge badge-pill badge-secondary hf-detail-tag">SKU</span><br>
-								<input type="text" class="form-control" id="exampleFormControlInput1" value="<%=ecp.getSku()%>"
-								style="margin-top: 3px" disabled>
-								
-							</div>
-						</div>
-						<div class="col">
-							<div>
-								<span class="badge badge-pill badge-secondary hf-detail-tag">Product Name</span><br>
-								<input type="text" class="form-control" id="exampleFormControlInput1" value="<%=ecp.getProduct_name()%>"
-								style="margin-top: 3px" disabled>
-								
-							</div>
-
-						</div>
-					</div>
-					
-					<!-- Row 5 -->
-					<div class="row">
-						<div class="col">
-							<div>
-								<span class="badge badge-pill badge-secondary hf-detail-tag">Qty Purchased</span><br>
-								<input type="text" class="form-control" id="exampleFormControlInput1" value="<%=ecp.getQuantity_purchased()%>"
-								style="margin-top: 3px" disabled>
-							</div>
-
-						</div>
-						<div class="col">
-							<div>
-								<span class="badge badge-pill badge-secondary hf-detail-tag">Qty Shipped</span><br>
-								<input type="text" class="form-control" id="exampleFormControlInput1" value="<%=ecp.getQuantity_shipped() %>"
-								style="margin-top: 3px" disabled>
-								
-							</div>
-						</div>
-						<div class="col">
-							<div>
-								<span class="badge badge-pill badge-secondary hf-detail-tag">Qty to Ship</span><br>
-								<input type="text" class="form-control" id="exampleFormControlInput1" value="<%=ecp.getQuantity_to_ship()%>"
-								style="margin-top: 3px" disabled>
-								
-							</div>
-
-						</div>
-					</div>
-					
-					<!-- Row 6 -->
-					<div class="row">
-						<div class="col">
-							<div>
-								<span class="badge badge-pill badge-secondary hf-detail-tag">Ship service level</span><br>
-								<input type="text" class="form-control" id="exampleFormControlInput1" value="<%=ecp.getShip_service_level()%>"
-								style="margin-top: 3px" disabled>
-							</div>
-
-						</div>
-						<div class="col">
-							<div>
-								<span class="badge badge-pill badge-secondary hf-detail-tag">Ship Service Name</span><br>
-								<input type="text" class="form-control" id="exampleFormControlInput1" value="<%=ecp.getShip_service_name()%>"
-								style="margin-top: 3px" disabled>
-								
-							</div>
-						</div>
-						<div class="col">
-							<div>
-								<span class="badge badge-pill badge-secondary hf-detail-tag">Recipient Name</span><br>
-								<input type="text" class="form-control" id="exampleFormControlInput1" value="<%=ecp.getRecipient_name()%>"
-								style="margin-top: 3px" disabled>
-								
-							</div>
-
-						</div>
-					</div>
-					
-					<!-- Row 7 -->
-					<div class="row">
-						<div class="col">
-							<div>
-								<span class="badge badge-pill badge-secondary hf-detail-tag">Ship Address</span><br>
-								<input type="text" class="form-control" id="exampleFormControlInput1" 
-								value="<%=ecp.getShip_address_1()%><%=ecp.getShip_address_2() %><%=ecp.getShip_address_3() %>"
-								style="margin-top: 3px" disabled>
-							</div>
-
-						</div>
-						<div class="col">
-							<div>
-								<span class="badge badge-pill badge-secondary hf-detail-tag">Ship City</span><br>
-								<input type="text" class="form-control" id="exampleFormControlInput1" value="<%=ecp.getShip_city()%>"
-								style="margin-top: 3px" disabled>
-								
-							</div>
-						</div>
-						<div class="col">
-							<div>
-								<span class="badge badge-pill badge-secondary hf-detail-tag">Ship State</span><br>
-								<input type="text" class="form-control" id="exampleFormControlInput1" value="<%=ecp.getShip_state()%>"
-								style="margin-top: 3px" disabled>
-								
-							</div>
-
-						</div>
-					</div>
-					
-					<!-- Row 8 -->
-					<div class="row">
-						<div class="col">
-							<div>
-								<span class="badge badge-pill badge-secondary hf-detail-tag">Ship Postal Code</span><br>
-								<input type="text" class="form-control" id="exampleFormControlInput1" 
-								value="<%=ecp.getShip_postal_code()%>"
-								style="margin-top: 3px" disabled>
-							</div>
-
-						</div>
-						<div class="col">
-							<div>
-								<span class="badge badge-pill badge-secondary hf-detail-tag">Ship Country</span><br>
-								<input type="text" class="form-control" id="exampleFormControlInput1" value="<%=ecp.getShip_country()%>"
-								style="margin-top: 3px" disabled>
-								
-							</div>
-						</div>
-						<div class="col">
-							<div>
-								<span class="badge badge-pill badge-secondary hf-detail-tag">Payment Method</span><br>
-								<input type="text" class="form-control" id="exampleFormControlInput1" value="<%=ecp.getPayment_method()%>"
-								style="margin-top: 3px" disabled>
-								
-							</div>
-
-						</div>
-					</div>
-					
-					<!-- Row 9 -->
-					<div class="row">
-						<div class="col">
-							<div>
-								<span class="badge badge-pill badge-secondary hf-detail-tag">Cod collective amount</span><br>
-								<input type="text" class="form-control" id="exampleFormControlInput1" 
-								value="<%=ecp.getCod_collectible_amount()%>"
-								style="margin-top: 3px" disabled>
-							</div>
-
-						</div>
-						<div class="col">
-							<div>
-								<span class="badge badge-pill badge-secondary hf-detail-tag">Already Paid</span><br>
-								<input type="text" class="form-control" id="exampleFormControlInput1" value="<%=ecp.getAlready_paid()%>"
-								style="margin-top: 3px" disabled>
-								
-							</div>
-						</div>
-						<div class="col">
-							<div>
-								<span class="badge badge-pill badge-secondary hf-detail-tag">Payment Method Fee</span><br>
-								<input type="text" class="form-control" id="exampleFormControlInput1" value="<%=ecp.getPayment_method_fee()%>"
-								style="margin-top: 3px" disabled>
-								
-							</div>
-
-						</div>
-					</div>
-					
-					<!-- Row 10 -->
-					<div class="row">
-						<div class="col">
-							<div>
-								<span class="badge badge-pill badge-secondary hf-detail-tag">Is business order</span><br>
-								<input type="text" class="form-control" id="exampleFormControlInput1" 
-								value="<%=ecp.getIs_business_order()%>"
-								style="margin-top: 3px" disabled>
-							</div>
-
-						</div>
-						<div class="col">
-							<div>
-								<span class="badge badge-pill badge-secondary hf-detail-tag">Purchase Order Number</span><br>
-								<input type="text" class="form-control" id="exampleFormControlInput1" value="<%=ecp.getPurchase_order_number()%>"
-								style="margin-top: 3px" disabled>
-								
-							</div>
-						</div>
-						<div class="col">
-							<div>
-								<span class="badge badge-pill badge-secondary hf-detail-tag">Price Designation</span><br>
-								<input type="text" class="form-control" id="exampleFormControlInput1" value="<%=ecp.getPrice_designation()%>"
-								style="margin-top: 3px" disabled>
-								
-							</div>
-
-						</div>
-					</div>
-					
-					<!-- Row 11 -->
-					<div class="row">
-						<div class="col">
-							<div>
-								<span class="badge badge-pill badge-secondary hf-detail-tag">Is Prime</span><br>
-								<input type="text" class="form-control" id="exampleFormControlInput1" 
-								value="<%=ecp.getIs_prime()%>"
-								style="margin-top: 3px" disabled>
-							</div>
-
-						</div>
-						<div class="col">
-							<div>
-								<span class="badge badge-pill badge-secondary hf-detail-tag">Fulfilled by</span><br>
-								<input type="text" class="form-control" id="exampleFormControlInput1" value="<%=ecp.getFulfilled_by()%>"
-								style="margin-top: 3px" disabled>
-								
-							</div>
-						</div>
-						<div class="col">
-							<div>
-								<span class="badge badge-pill badge-secondary hf-detail-tag">Shipment Status</span><br>
-								<input type="text" class="form-control" id="exampleFormControlInput1" value="<%=ecp.getShipment_status()%>"
-								style="margin-top: 3px" disabled>
-								
-							</div>
-
-						</div>
-					</div>
-					
-					<!-- Row 12 -->
-					<div class="row">
-						<div class="col">
-							<div>
-								<span class="badge badge-pill badge-secondary hf-detail-tag">Is sold by AB</span><br>
-								<input type="text" class="form-control" id="exampleFormControlInput1" 
-								value="<%=ecp.getIs_sold_by_ab()%>"
-								style="margin-top: 3px" disabled>
-							</div>
-
-						</div>
-						
-					</div>
-					<input type="hidden" class="form-control" id="orderid" name="orderid" 
-								value="<%=ecp.getOrder_id()%>"
-								style="margin-top: 3px" disabled>
-					<button type="submit" class="form-control btn btn-success btn-sm" style="margin-left: 10px;" id="updateBtn" 
-					name="updateBtn" value="updateClicked">
-					Update
-					</button>
-					
-					</form>
-					
-				</div></div>
 
 
 			</div>
-
-			<%
-				}
-			%>
 		</div>
 
-		<%
-			} else {
-								System.out.println("No records found!");
-		%>
-		<div class="alert alert-warning" role="alert">
-			<h4 class="alert-heading">Oops !</h4>
-			<p>No matching records found.</p>
-			<hr>
-			<p class="mb-0">Try again with improved criteria.</p>
-		</div>
-		<%
-			}
 
-						}
-
-					} catch (ConnectException ex) {
-						System.out.println("Server Down.\n" + ex.getMessage());
-						
-		%>
-		<div class="alert alert-warning" role="alert">
-			<h4 class="alert-heading">Oops !</h4>
-			<p>
-				Operation failed due to any of below reasons:<br> 
-				1. Server is down.<br>
-				2. Connection timed out. <br>
-			</p>
-			<hr>
-			<p class="mb-0">Try again with improved criteria.</p>
-		</div>
-		<%
-			}catch(Exception ex){
-				System.out.println("Exception: "+ex.getMessage());
-				%>
-				<div class="alert alert-warning" role="alert">
-					<h4 class="alert-heading">Oops !</h4>
-					<p>
-						Operation failed due to any of below reasons:<br> 
-						1. Server is down.<br>
-						2. Connection timed out. <br>
-					</p>
-					<hr>
-					<p class="mb-0">Try again with improved criteria.</p>
-				</div>
-				<%
-
-			}finally {
-						con.disconnect();
-						System.out.println("Connection closed.");
-					}
-				} else {
-		%>
-		<div class="alert alert-warning" role="alert">
-			<h4 class="alert-heading">Oops !</h4>
-			<p>
-				Operation failed due to any of below reasons:<br> 1. No input
-				is provided.<br>
-			</p>
-			<hr>
-			<p class="mb-0">Try again with improved criteria.</p>
-		</div>
-		<%
-			System.out.println("All fields are empty.");
-				}
-
-			}
-		%>
 	</div>
-	
-		<script type="text/javascript" src="js/jquery-3.5.1.slim.min.js"></script>
-	<script type="text/javascript" src="js/popper.min.js"></script>
-	<script type="text/javascript" src="js/bootstrap.min.js"></script>
-	<script src="js/dom-to-image.js"></script>
-	<script src="js/Filesaver.js"></script>
-	
-	<script type="text/javascript">
-		$(document).ready(function() {
-			$('#copyToast').toast('hide');
-		});
-	</script>
-	<script type="text/javascript">
-		$(function() {
-			$('[data-toggle="tooltip"]').tooltip()
-		})
-	</script>
-	
-	<script type="text/javascript">
-		function copyToClipboard(ecpNo, description) {
 
-			const myTextarea = document.createElement('textarea');
-
-			var copyString = 'HF Number:\t\t'
-					+ document.getElementById(ecpNo).innerHTML
-					+ '\r\nDescription:\t'
-					+ document.getElementById(description).innerHTML;
-
-			myTextarea.innerHTML = copyString;
-
-			document.body.appendChild(myTextarea);
-
-			myTextarea.select();
-
-			document.execCommand('copy');
-
-			document.body.removeChild(myTextarea);
-			document.getElementById('copyToastWrapper').style.display="block";
-			document.getElementById('copyToastBody').innerHTML =document.getElementById(ecpNo).innerHTML+'<br>(Hotfix number and description)';
-			
-			$('#copyToast').toast('show');
-
-
-		}
-		function saveImage(elementId,ecpNumber) {
-
-			domtoimage.toBlob(document.getElementById(elementId))
-		    .then(function (blob) {
-		        window.saveAs(blob, 'HF_Details_'+ecpNumber+'.png');
-		    });
-
-		}
-		function emailHotfix(EcpNo, Description, CaseOrCrNo, CramerVersion, EcpFaulty, FileLocationInPerforce, 
-				FilesModifiedInPerforce, FilesReleasedToCustomer, FixedBy, LatestEcp,
-				Module, Notes, PrereqForLatestEcp, releasedDate, requestDate,
-				Requestor, RolledIntoVersion){
-			console.log(EcpNo+'\r\n'+Description+'\r\n'+ CaseOrCrNo+'\r\n'+ CramerVersion+'\r\n'+ EcpFaulty+'\r\n'+ FileLocationInPerforce+'\r\n'+ 
-					FilesModifiedInPerforce+'\r\n'+FilesReleasedToCustomer+'\r\n'+FixedBy+'\r\n'+ LatestEcp+'\r\n'+
-					Module+'\r\n'+ Notes+'\r\n'+ PrereqForLatestEcp+'\r\n'+ releasedDate+'\r\n'+ requestDate+'\r\n'+
-					Requestor+'\r\n'+ RolledIntoVersion);
-
-			var subject='Hotfix Details - '+EcpNo.replace("<br>",", ");
-			
-			var body='Hotfix Number:\t\t'+EcpNo.replace("<br>",", ");
-			body+='\r\nDescription:\t\t'+Description.replace("<br>",", ");
-			body+='\r\nLatest Hotfix:\t\t'+LatestEcp.replace("<br>",", ");
-			body+='\r\nPrereq\'s for latest HF:\t'+PrereqForLatestEcp.replace("<br>",", ");
-			body+='\r\nModule:\t\t'+Module.replace("<br>",", ");
-			body+='\r\nCase or CR No:\t\t'+CaseOrCrNo.replace("<br>",", ");
-			body+='\r\nVersion:\t\t'+CramerVersion.replace("<br>",", ");
-			body+='\r\nRolled into:\t\t'+RolledIntoVersion.replace("<br>",", ");
-			body+='\r\nIs HF faulty?:\t\t'+EcpFaulty.replace("<br>",", ");
-			body+='\r\nFixed By:\t\t'+FixedBy.replace("<br>",", ");
-			body+='\r\nRequested By:\t\t'+Requestor.replace("<br>",", ");
-			body+='\r\nReleased Date:\t\t'+releasedDate.replace("<br>",", ");
-			body+='\r\nRequested Date:\t'+requestDate.replace("<br>",", ");
-			body+='\r\nNotes:\t\t\t'+Notes.replace("<br>",", ");
-			body+='\r\nFiles Location:\t\t'+FileLocationInPerforce.replace("<br>",", ")	
-			body+='\r\nFiles Modified:\t\t'+FilesModifiedInPerforce.replace("<br>",", ");
-			body+='\r\nFiles Released:\t\t'+FilesReleasedToCustomer.replace("<br>",", ");
-			body+='\r\n\r\n====================================';
-			body+='\r\nReference: http://avinasht01/';
-
-			
-			window.location.assign('mailto:?subject='+subject+'&body='+encodeURIComponent(body));
-			}
-		
-	</script>
-	
+	<!--  -->
+	<%--         <h1>Edit Order</h1>  
+       <form:form method="post" action="/editsave">    
+        <table >    
+         <tr>    
+          <td>Order ID : </td>   
+          <td><form:input path="order_id" class="form-control" /></td>  
+         </tr>    
+         
+         <tr>    
+          <td>Buyer Email : </td>   
+          <td><form:input path="buyer_email" class="form-control" /></td>  
+         </tr>    
+         <tr>    
+          <td>Buyer Name :</td>    
+          <td><form:input path="buyer_name" class="form-control" /></td>  
+         </tr>   
+         <tr>    
+          <td>Buyer Phone :</td>    
+          <td><form:input path="buyer_phone_number" class="form-control" /></td>  
+         </tr>   
+         <tr>    
+          <td> </td>    
+          <td><input type="submit" class="btn btn-warning btn-sm" value="Edit Save" /></td>    
+         </tr>    
+        </table>    
+       </form:form> --%>
 </body>
 </html>
