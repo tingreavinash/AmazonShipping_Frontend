@@ -41,6 +41,7 @@ html, body {
 	<div class="alert Box-header text-center">
 		<span style="font-size: 13px; color: white"
 			class="badge badge-warning badge-mb">Search Query: </span><br>
+			<a href="downloadFile" class="btn btn-warning btn-sm" style="margin-top:10px;">Download File</a>
 			<a href="logout" class="btn btn-success btn-sm" style="margin-top:10px;">Logout</a>
 			<a href="batchEditOrders" class="btn btn-success btn-sm" style="margin-top:10px;">Batch Update</a>
 			<a href="empform" class="btn btn-success btn-sm" style="margin-top:10px;"
