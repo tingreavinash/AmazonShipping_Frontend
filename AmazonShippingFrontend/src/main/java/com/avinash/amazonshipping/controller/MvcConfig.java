@@ -15,6 +15,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -39,6 +40,7 @@ import com.avinash.amazonshipping.model.Emp;
 import com.avinash.amazonshipping.model.Mail;
 import com.avinash.amazonshipping.model.Order;
 import com.avinash.amazonshipping.model.OrderListWrapper;
+import com.avinash.amazonshipping.service.FileHandler;
 import com.avinash.amazonshipping.service.MailService;
 import com.avinash.amazonshipping.service.OrderService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -48,12 +50,17 @@ public class MvcConfig {
 
 	List<Order> sampleList = new ArrayList<Order>();
 
+	@Value("${API.OUTPUT_FILE_PATH}")
+	private String OUTPUT_FILE_PATH;
+	
 	@Autowired
 	MailService mailService;
 
 	@Autowired
 	OrderService orderService;
-
+	
+	@Autowired
+	FileHandler fileHander;
 	
 	@GetMapping("/")
 	public String index() {
@@ -168,7 +175,10 @@ public class MvcConfig {
 	}
 	@RequestMapping(value="/downloadFile")
 	public void downloadFile(HttpServletResponse response) throws IOException {
-		File file = new File("C:\\Work\\Projects\\Hotfix Viewer Spring\\Input order file.xlsx");
+		
+		fileHander.createFile(orderService.getAllOrders(), OUTPUT_FILE_PATH);
+		
+		File file = new File(OUTPUT_FILE_PATH);
 		
 		if(!file.exists()){
             String errorMessage = "Sorry. The file you are looking for does not exist";

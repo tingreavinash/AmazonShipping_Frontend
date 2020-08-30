@@ -8,6 +8,7 @@ API:
   ENDPOINT_UPDATEBATCHORDERS: updateBatchOrders
   ENDPOINT_DELETEORDER: deleteOrder?orderid=
   ENDPOINT_GETORDERBYID: getOrderDetails?orderid=
+  OUTPUT_FILE_PATH: C:\Work\Projects\Hotfix Viewer Spring\Testexcelfile.xlsx
   
 server:
   port: 8888
