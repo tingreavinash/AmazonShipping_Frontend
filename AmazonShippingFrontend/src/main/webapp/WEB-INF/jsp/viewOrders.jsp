@@ -71,7 +71,12 @@ html, body {
 
 							<div class="row">
 								<div class="col col-sm-10">
-									<div id="ecpno_${order.order_id}">${order.order_id}</div>
+									<div id="ecpno_${order.order_id}">${order.order_id}
+									<c:set var="orderCancelled" value="${order.order_cancelled }"/>
+									<c:if test="${orderCancelled == true }">
+									<span class="badge badge-sm badge-danger">Cancelled</span>
+									</c:if>
+									</div>
 
 								</div>
 								<div class="col col-sm-2">

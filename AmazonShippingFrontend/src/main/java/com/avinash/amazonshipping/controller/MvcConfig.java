@@ -153,7 +153,7 @@ public class MvcConfig {
 		Order order = orderService.getOrderByOrderId(order_id);
 
 		m.addAttribute("command", order);
-		return "empeditform";
+		return "updateorder";
 	}
 
 	@RequestMapping(value = "/batchEditOrders")

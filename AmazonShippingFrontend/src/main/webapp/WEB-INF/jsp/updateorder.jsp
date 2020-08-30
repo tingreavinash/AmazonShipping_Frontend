@@ -52,6 +52,39 @@ html, body {
 
 					<form:form method="post" action="/editsave">
 
+<form:hidden path="order_id" />                               
+<form:hidden path="purchase_date" />
+<form:hidden path="payments_date" />
+<form:hidden path="reporting_date" />
+<form:hidden path="promise_date" />
+<form:hidden path="days_past_promise" />
+<form:hidden path="sku" />
+<form:hidden path="product_name" />
+<form:hidden path="quantity_purchased" />
+<form:hidden path="quantity_shipped" />
+<form:hidden path="quantity_to_ship" />
+<form:hidden path="ship_service_level" />
+<form:hidden path="ship_service_name" />
+<form:hidden path="ship_address_1" />
+<form:hidden path="ship_address_2" />
+<form:hidden path="ship_address_3" />
+<form:hidden path="ship_city" />
+<form:hidden path="ship_state" />
+<form:hidden path="ship_postal_code" />
+<form:hidden path="ship_country" />
+<form:hidden path="already_paid" />
+<form:hidden path="payment_method_fee" />
+<form:hidden path="is_business_order" />
+<form:hidden path="purchase_order_number" />
+<form:hidden path="price_designation" />
+<form:hidden path="is_prime" />
+<form:hidden path="fulfilled_by" />
+<form:hidden path="shipment_status" />
+<form:hidden path="is_sold_by_ab" />
+<form:hidden path="record_created_by" />
+<form:hidden path="record_last_modified" />
+
+
 						<div class="form-row">
 							<div class="col">
 								<span class="badge badge-pill badge-success">${order_id}</span>
@@ -59,16 +92,7 @@ html, body {
 
 						</div>
 						<div class="form-row">
-							<form:hidden path="order_id" placeholder="Order ID"
-								cssStyle="margin-bottom: 5px;"
-								cssClass="form-control form-control-sm" />
-
-							<div class="col">
-								<form:input path="order_item_id" placeholder="Order Item ID"
-									cssStyle="margin-bottom: 5px;"
-									cssClass="form-control form-control-sm" />
-
-							</div>
+							
 						</div>
 						<div class="form-row">
 							<div class="col">
@@ -77,12 +101,12 @@ html, body {
 									cssClass="form-control form-control-sm" />
 
 							</div>
-							<div class="col">
-								<form:input path="courier_code" placeholder="Courier Code"
-									cssStyle="margin-bottom: 5px;"
-									cssClass="form-control form-control-sm" />
+						</div>
+						<div class="form-row">
+							<label for="order_cancelled">Mark as cancelled</label>
+							<form:checkbox path="order_cancelled" class="form-control"
+								value="true" />
 
-							</div>
 						</div>
 						<div class="form-row">
 							<div class="col">
@@ -111,18 +135,7 @@ html, body {
 							</div>
 
 
-							<div class="col">
-								<form:input path="payment_method" placeholder="Payment Method"
-									cssStyle="margin-bottom: 5px;"
-									cssClass="form-control form-control-sm" />
-							</div>
 						</div>
-
-						<form:input path="cod_collectible_amount" placeholder="COD Amount"
-							cssStyle="margin-bottom: 5px;"
-							cssClass="form-control form-control-sm" />
-
-
 
 
 						<div class="row justify-content-center">
